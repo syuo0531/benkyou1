@@ -1,23 +1,57 @@
-d('setBonus');if(sn)sn.textContent=setName;if(sb)sb.textContent=setText;
-  // 一覧は装備プレビューより先に描画。プレビュー側でエラーが起きても一覧を失わない。
-  try{renderGearTabs();renderGearGrid();renderGearDetail()}catch(err){console.error('gear list render error',err);const grid=document.getElementById('gearGrid');if(grid&&!grid.innerHTML)grid.innerHTML='<div class="card addbox" style="grid-column:1/-1">装備一覧の読み込みに失敗しました。ページを再読み込みしてください。</div>'}
-  try{applyVisuals()}catch(err){console.warn('gear visual preview skipped',err)}
-  const mats=document.getElementById('materials');if(mats){mats.innerHTML='';Object.keys(MATS).forEach(k=>{const d=document.createElement('div');d.className='mat';d.innerHTML=`${MATS[k]} <b>×${state.inventory[k]||0}</b>`;mats.appendChild(d)})}
-}
-function applyVisuals(){const op=(id,on)=>{const el=document.getElementById(id);if(el)el.style.opacity=on?'1':'.14'};op('visWeapon',!!state.equipped.weapon);op('visHead',!!state.equipped.head);op('visChest',!!state.equipped.chest);op('visArmL',!!state.equipped.arms);op('visArmR',!!state.equipped.arms);op('visWaist',!!state.equipped.waist);op('visLegL',!!state.equipped.legs);op('visLegR',!!state.equipped.legs);op('visCharm',!!state.equipped.charm);op('visCharmDrop',!!state.equipped.charm);
- const dominant=gearById(state.equipped.chest)||gearById(state.equipped.head)||gearById(state.equipped.weapon); const weapon=gearById(state.equipped.weapon); const armorTheme=gearTheme(dominant), weaponTheme=gearTheme(weapon);
- const cape=document.getElementById('visCape');if(cape){cape.style.fill=armorTheme.main;cape.style.opacity=dominant?'.92':'.25'};
+me.main;cape.style.opacity=dominant?'.92':'.25'};
  ['visHead','visChest','visArmL','visArmR','visWaist','visLegL','visLegR'].forEach(id=>{const el=document.getElementById(id);if(!el)return;el.style.fill=armorTheme.main;el.style.stroke=armorTheme.trim;el.style.filter=`drop-shadow(0 0 8px ${armorTheme.glow})`;});
  const wb=document.getElementById('visWeaponBlade'), we=document.getElementById('visWeaponEdge'), wg=document.getElementById('visWeaponGrip'), gw=document.getElementById('visWeapon');
  if(wb){wb.style.fill=weaponTheme.main; wb.style.filter=`drop-shadow(0 0 10px ${weaponTheme.glow})`;}
  if(we){we.style.stroke=weaponTheme.trim;} if(wg){wg.style.stroke='#241c16';} if(gw){gw.style.filter=`drop-shadow(0 0 12px ${weaponTheme.glow})`;}
  const charm=gearById(state.equipped.charm);if(charm){const ct=gearTheme(charm),c1=document.getElementById('visCharm'),c2=document.getElementById('visCharmDrop');if(c1)c1.style.fill=ct.trim;if(c2)c2.style.fill=ct.trim;}
 }
-function renderGearTabs(){const area=document.getElementById('gearTabs');area.innerHTML='';const groups=[['weapon','武器'],['head','頭'],['chest','胴'],['arms','腕'],['waist','腰'],['legs','脚'],['charm','護石']];groups.forEach(([k,l])=>{const b=document.createElement('button');b.className='btn gear-tab '+(gearSlot===k?'gold':'');b.dataset.gearTab=k;b.textContent=l;area.appendChild(b)})}
-function renderGearGrid(){const area=document.getElementById('gearGrid');area.innerHTML='';const list=GEAR.filter(g=>g.slot===gearSlot);if(!selectedGear||!list.some(g=>g.id===selectedGear))selectedGear=state.equipped[gearSlot]||list[0]?.id||null;list.forEach(g=>{const made=state.craftedGear.includes(g.id),eq=state.equipped[g.slot]===g.id,b=document.createElement('button');b.type='button';const theme=gearTheme(g);b.className='gear-item r'+g.rarity+' '+(selectedGear===g.id?'selected ':'')+(made?'':'locked ')+(g.rarity>=5?'legendary':'');b.dataset.gear=g.id;const el=g.slot==='weapon'?elementInfo(g.element):null;b.style.background=`linear-gradient(145deg, ${theme.sub}, #17120f)`;b.style.boxShadow=`0 0 0 1px ${theme.trim}33, 0 0 16px ${theme.glow}`;b.innerHTML=`<div class="gicon" style="background:linear-gradient(145deg,${theme.main},${theme.sub});border-color:${theme.trim}">${g.icon}</div><b>${escapeHtml(g.name)}</b><div class="gmeta"><span class="tiny-badge rare">${'★'.repeat(g.rarity)}</span><span class="tiny-badge set">${setLabel(g.set)}</span>${el?`<span class="tiny-badge power ${el.class}">${el.icon} ${el.label}</span>`:`<span class="tiny-badge power">防御 ${g.defense||0}</span>`}</div><small>${eq?'装備中':made?'作成済み':'未作成'}</small>`;area.appendChild(b)})}
-function renderGearDetail(){const area=document.getElementById('gearDetail'),g=gearById(selectedGear);if(!g){area.innerHTML='<div class="muted">装備を選択してください。</div>';return}const made=state.craftedGear.includes(g.id),eq=state.equipped[g.slot]===g.id,cost=Object.entries(g.cost).map(([m,n])=>`${MATS[m]} ${state.inventory[m]||0}/${n}`).join(' ・ '),skill=Object.entries(g.skills).map(([k,v])=>`${k==='xp'?'獲得XP':k==='hardXp'?'高難度XP':'素材率'} +${Math.round(v*100)}%`).join(' / '),el=g.slot==='weapon'?elementInfo(g.element):null, theme=gearTheme(g); const flavor = g.slot==='weapon' ? (g.rarity>=5 ? '禍々しい輝きと圧倒的存在感を纏う、男心をくすぐる最上位武器。' : '狩場でひときわ目立つ、戦意をかき立てる一本。') : (g.rarity>=5 ? '重厚さと輝きを両立した、英雄級の防具。' : '頼もしさと格好良さを兼ね備えた防具。');
-area.innerHTML=`<div class="detail-head"><div class="detail-icon ${g.rarity>=5?'legendary':''}" style="background:linear-gradient(145deg,${theme.main},${theme.sub});border-color:${theme.trim}">${g.icon}</div><div><div class="detail-name">${escapeHtml(g.name)}</div><div class="stars">${'★'.repeat(g.rarity)}${'☆'.repeat(5-g.rarity)} ・ ${setLabel(g.set)}</div>${el?`<div><span class="elem-badge ${el.class}">${el.icon} ${el.label}属性</span> 攻撃倍率 ×${(g.power||1).toFixed(2)}</div>`:`<div>防御力 ${g.defense||0}</div>`}<div class="skills">${skill||'固有スキルなし'}</div><div class="weapon-flavor">${flavor}</div></div></div><div class="costs">必要素材：${cost}</div><div class="detail-actions"><button class="btn gold" id="craftGear" ${made||!canCraft(g)?'disabled':''}>${made?'作成済み':canCraft(g)?'作成する':'素材不足'}</button><button class="btn primary" id="equipGear" ${made?'':'disabled'}>${eq?'装備を外す':'装備する'}</button></div>`}
+function safeCrafted(){if(!Array.isArray(state.craftedGear))state.craftedGear=[];return state.craftedGear}
+function safeEquipped(){if(!state.equipped||typeof state.equipped!=='object')state.equipped=blankState().equipped;return state.equipped}
+function renderGearTabs(){
+  let area=document.getElementById('gearTabs');
+  if(!area){const sec=document.querySelector('[data-view="gear"] .section:nth-of-type(2)');if(sec){area=document.createElement('div');area.id='gearTabs';area.className='gear-tabs';sec.prepend(area)}else return}
+  area.innerHTML='';
+  const groups=[['weapon','武器'],['head','頭'],['chest','胴'],['arms','腕'],['waist','腰'],['legs','脚'],['charm','護石']];
+  groups.forEach(([k,l])=>{const b=document.createElement('button');b.type='button';b.className='btn gear-tab '+(gearSlot===k?'gold':'');b.dataset.gearTab=k;b.textContent=l;area.appendChild(b)});
+}
+function renderGearGrid(){
+  let area=document.getElementById('gearGrid');
+  if(!area){const sec=document.querySelector('[data-view="gear"] .section:nth-of-type(2)');if(sec){area=document.createElement('div');area.id='gearGrid';area.className='gear-grid';sec.appendChild(area)}else return}
+  area.innerHTML='';
+  const crafted=safeCrafted(), equipped=safeEquipped();
+  const list=(Array.isArray(GEAR)?GEAR:[]).filter(g=>g&&g.slot===gearSlot);
+  if(!list.length){area.innerHTML='<div class="card addbox" style="grid-column:1/-1">この部位の装備はまだありません。</div>';return}
+  if(!selectedGear||!list.some(g=>g.id===selectedGear))selectedGear=equipped[gearSlot]||list[0].id;
+  for(const g of list){
+    try{
+      const made=crafted.includes(g.id),eq=equipped[g.slot]===g.id,b=document.createElement('button');
+      b.type='button';
+      const rarity=Math.max(1,Math.min(5,Number(g.rarity)||1));
+      const theme=typeof gearTheme==='function'?gearTheme(g):{main:'#49392e',sub:'#17120f',trim:'#745c38',glow:'transparent'};
+      b.className=`gear-item r${rarity} ${selectedGear===g.id?'selected ':''}${made?'':'locked '}${rarity>=5?'legendary':''}`;
+      b.dataset.gear=g.id;
+      const el=g.slot==='weapon'&&typeof elementInfo==='function'?elementInfo(g.element||'none'):null;
+      b.style.background=`linear-gradient(145deg, ${theme.sub||'#17120f'}, #17120f)`;
+      b.innerHTML=`<div class="gicon" style="background:linear-gradient(145deg,${theme.main||'#49392e'},${theme.sub||'#17120f'});border-color:${theme.trim||'#745c38'}">${g.icon||'⚔️'}</div><b>${escapeHtml(g.name||'名称未設定')}</b><div class="gmeta"><span class="tiny-badge rare">${'★'.repeat(rarity)}</span><span class="tiny-badge set">${typeof setLabel==='function'?setLabel(g.set):'装備'}</span>${el?`<span class="tiny-badge power ${el.class||''}">${el.icon||''} ${el.label||''}</span>`:`<span class="tiny-badge power">防御 ${Number(g.defense)||0}</span>`}</div><small>${eq?'装備中':made?'作成済み':'未作成'}</small>`;
+      area.appendChild(b);
+    }catch(err){console.error('gear card error',g,err)}
+  }
+  if(!area.children.length)area.innerHTML='<div class="card addbox" style="grid-column:1/-1">装備データの表示に失敗しました。</div>';
+}
+function renderGearDetail(){
+  const area=document.getElementById('gearDetail');if(!area)return;
+  const g=gearById(selectedGear);if(!g){area.innerHTML='<div class="muted">装備を選択してください。</div>';return}
+  try{
+    if(!Array.isArray(state.craftedGear))state.craftedGear=[];if(!state.equipped||typeof state.equipped!=='object')state.equipped={};if(!state.inventory||typeof state.inventory!=='object')state.inventory={};
+    const made=state.craftedGear.includes(g.id),eq=state.equipped[g.slot]===g.id,costObj=(g.cost&&typeof g.cost==='object')?g.cost:{},skillsObj=(g.skills&&typeof g.skills==='object')?g.skills:{};
+    const craftable=Object.entries(costObj).every(([m,n])=>(Number(state.inventory[m])||0)>=(Number(n)||0));
+    const cost=Object.entries(costObj).map(([m,n])=>`${MATS[m]||m} ${Number(state.inventory[m])||0}/${Number(n)||0}`).join(' ・ ')||'なし';
+    const skill=Object.entries(skillsObj).map(([k,v])=>`${k==='xp'?'獲得XP':k==='hardXp'?'高難度XP':k==='material'?'素材率':k} +${Math.round((Number(v)||0)*100)}%`).join(' / ');
+    const el=g.slot==='weapon'?elementInfo(g.element||'none'):null,theme=gearTheme(g),rarity=Math.max(1,Math.min(5,Number(g.rarity)||1)),flavor=g.slot==='weapon'?(rarity>=5?'禍々しい輝きと圧倒的存在感を纏う、最上位武器。':'狩場で戦意をかき立てる一本。'):(rarity>=5?'重厚さと輝きを両立した英雄級の防具。':'頼もしさと格好良さを兼ね備えた防具。');
+    area.innerHTML=`<div class="detail-head"><div class="detail-icon ${rarity>=5?'legendary':''}" style="background:linear-gradient(145deg,${theme.main},${theme.sub});border-color:${theme.trim}">${g.icon||'⚔️'}</div><div><div class="detail-name">${escapeHtml(g.name||'名称未設定')}</div><div class="stars">${'★'.repeat(rarity)}${'☆'.repeat(5-rarity)} ・ ${setLabel(g.set)}</div>${el?`<div><span class="elem-badge ${el.class}">${el.icon} ${el.label}属性</span> 攻撃倍率 ×${(Number(g.power)||1).toFixed(2)}</div>`:`<div>防御力 ${Number(g.defense)||0}</div>`}<div class="skills">${skill||'固有スキルなし'}</div><div class="weapon-flavor">${flavor}</div></div></div><div class="costs">必要素材：${cost}</div><div class="detail-actions"><button class="btn gold" id="craftGear" ${made||!craftable?'disabled':''}>${made?'作成済み':craftable?'作成する':'素材不足'}</button><button class="btn primary" id="equipGear" ${made?'':'disabled'}>${eq?'装備を外す':'装備する'}</button></div>`;
+  }catch(err){console.error('gear detail error',err);area.innerHTML='<div class="muted">装備詳細の読み込みに失敗しました。</div>'}
+}
 function renderBestiary(){const area=document.getElementById('bestiaryGrid');area.innerHTML='';if(!state.bestiary.length){area.innerHTML='<div class="card addbox muted" style="grid-column:1/-1;text-align:center">まだ討伐記録はありません。</div>';return}state.bestiary.forEach(m=>{const t=TIERS[m.tierKey]||TIERS.small,d=document.createElement('div'),el=elementInfo(m.element||'none');d.className='card monster';d.innerHTML=`<div class="micon">${t.icon}</div><b>${escapeHtml(m.name)}</b><small>討伐 ×${m.count}</small><small class="${el.class}">${el.icon} ${el.label}属性</small>`;area.appendChild(d)})}
 function renderAchievements(){const area=document.getElementById('achievementList');area.innerHTML='';ACH.forEach(a=>{const unlocked=state.achievements.includes(a.id),d=document.createElement('div');d.className='review-row';d.style.opacity=unlocked?'1':'.4';d.innerHTML=`<div><b>${unlocked?'🏅 '+escapeHtml(a.title):'🔒 ???'}</b><small>${unlocked?escapeHtml(a.desc):'条件はまだ伏せられている'}</small></div><span>${unlocked?'解放':'未解放'}</span>`;area.appendChild(d)})}
 function renderRecords(){const tm=totalMinutes();document.getElementById('totalStudy').textContent=tm<60?tm+'分':`${Math.floor(tm/60)}時間${tm%60}分`;const chart=document.getElementById('studyChart');chart.innerHTML='';const keys=weekKeys(),max=Math.max(1,...keys.map(k=>state.studyByDate[k]||0));keys.forEach((k,i)=>{const col=document.createElement('div');col.className='chart-col';const h=Math.max(3,Math.round((state.studyByDate[k]||0)/max*100));col.innerHTML=`<div class="chart-bar" style="height:${h}%" title="${state.studyByDate[k]||0}分"></div><span>${['月','火','水','木','金','土','日'][i]}<br>${state.studyByDate[k]||0}</span>`;chart.appendChild(col)});const log=document.getElementById('logList');log.innerHTML='';[...state.log].reverse().slice(0,50).forEach(l=>{const d=document.createElement('div');d.className='log-row';d.innerHTML=`<span>${escapeHtml(l.name)}</span><span>${l.xp?`+${l.xp}XP `:''}${l.minutes?`${l.minutes}分`:''}</span>`;log.appendChild(d)});if(!state.log.length)log.innerHTML='<div class="muted" style="font-size:11px">まだ記録がありません。</div>'}
-async function finishResult(res){let msg=`達成！ +${res.gain} XP${res.materialDrop?` / ${res.materialDrop}`:''}${res.damage?` / ${res.damage}ダメージ`:''}`;if(res.mult>1)msg+=' 弱点属性！';if(res.mult<1)msg+=' 属性耐性…';if(res.counter?.triggered)msg+=` / 反撃 -${res.counter.damage}HP${res.counter.fainted?'（力尽きた）':''}`;if(res.defeated){const drops=defeatBoss(res.defeated);msg=`討伐成功！ 素材：${drops}`}checkAchievements();render();await save();t
+async function finishResult(res){let msg=`達成！ +${res.gain} XP${res.materialDrop?` / ${res.materialDrop}`:''}${res.damage?` / ${res.damage}ダメージ`:''}`;if
