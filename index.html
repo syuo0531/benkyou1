@@ -11,17 +11,29 @@
 <script>
 (async()=>{
   try{
-    const urls=Array.from({length:9},(_,i)=>`chunks/part${String(i).padStart(2,'0')}.txt?v=64-run2`);
+    const urls=Array.from({length:9},(_,i)=>`chunks/part${String(i).padStart(2,'0')}.txt?v=64-run3`);
     const parts=await Promise.all(urls.map(u=>fetch(u,{cache:'no-store'}).then(r=>{if(!r.ok)throw new Error('load '+u);return r.text()})));
     const html=parts.join('');
-    const scripts=[...html.matchAll(/<script(?:\s[^>]*)?>([\s\S]*?)<\/script>/gi)].map(m=>m[1]);
-    if(!scripts.length) throw new Error('app script not found');
-    const shell=html.replace(/<script(?:\s[^>]*)?>[\s\S]*?<\/script>/gi,'');
-    document.open();
-    document.write(shell);
-    document.close();
-    await new Promise(r=>setTimeout(r,0));
-    for(const code of scripts){(0,eval)(code)}
+    const parsed=new DOMParser().parseFromString(html,'text/html');
+    const appScripts=[...parsed.querySelectorAll('script')].map(s=>s.textContent||'');
+    if(!appScripts.length) throw new Error('app script not found');
+
+    // Replace the loader shell with the app DOM, but do not rely on document.write/eval.
+    document.head.innerHTML='';
+    [...parsed.head.childNodes].forEach(node=>{
+      if(node.nodeName.toLowerCase()!=='script') document.head.appendChild(document.importNode(node,true));
+    });
+    document.body.innerHTML='';
+    [...parsed.body.childNodes].forEach(node=>{
+      if(node.nodeName.toLowerCase()!=='script') document.body.appendChild(document.importNode(node,true));
+    });
+
+    // Execute the app as real script elements so Safari/WKWebView can run it normally.
+    for(const code of appScripts){
+      const s=document.createElement('script');
+      s.textContent=code;
+      document.body.appendChild(s);
+    }
   }catch(e){
     console.error(e);
     document.body.innerHTML='<div style="padding:24px;max-width:520px;margin:auto"><h2>起動エラー</h2><p>アプリの起動に失敗しました。</p><pre style="white-space:pre-wrap;font-size:11px">'+String(e&&e.stack||e)+'</pre></div>';
