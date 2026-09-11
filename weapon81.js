@@ -1,0 +1,15 @@
+(function(){
+'use strict';
+/* v8.1 visual-only weapon patch. Does not replace render/navigation/save/daily/bestiary/title logic. */
+const IDS=new Set(['wep_small','wep_bone_gs','wep_fire_gs','wep_water_blade','wep_thunder_lance','wep_frost_veil','wep_dragon_gs','wep_wolf_dual','wep_hammer','wep_bow','wep_ancient','wep_abyss_reaper','wep_astral_blade','wep_crimson_burst','wep_storm_howl']);
+function gear(id){try{return typeof gearById==='function'?gearById(id):null}catch(_){return null}}
+function art(g,size){if(!g||!IDS.has(g.id))return '';return `<svg class="weapon81-art" width="${size}" height="${size}" viewBox="0 0 120 120" aria-hidden="true"><use href="weapon81.svg?v=81#${g.id}"></use></svg>`;}
+function aura(g){if(!g)return'';if(g.set==='blaze'||g.element==='fire')return'<span class="weapon-aura79 fire">✹</span>';if(g.set==='storm'||g.element==='thunder')return'<span class="weapon-aura79 thunder">⚡</span>';if(g.set==='frost'||g.element==='ice')return'<span class="weapon-aura79 ice">✦</span>';if(g.set==='abyss'||g.set==='dragon'||g.element==='dragon')return'<span class="weapon-aura79 dragon">✦</span>';if(g.set==='astral'||g.set==='star')return'<span class="weapon-aura79 star">✦</span>';return'';}
+function patch(){
+ document.querySelectorAll('#gearGrid .gear-item[data-gear]').forEach(btn=>{const g=gear(btn.dataset.gear);if(!g||g.slot!=='weapon'||!IDS.has(g.id))return;const box=btn.querySelector('.gicon');if(!box||box.dataset.weapon81===g.id)return;box.innerHTML=art(g,78)+aura(g);box.dataset.weapon81=g.id;});
+ try{const g=gear(typeof selectedGear==='undefined'?null:selectedGear),box=document.querySelector('#gearDetail .detail-icon');if(g&&g.slot==='weapon'&&IDS.has(g.id)&&box&&box.dataset.weapon81!==g.id){box.innerHTML=art(g,92)+aura(g);box.dataset.weapon81=g.id;}}catch(_){}
+}
+function observe(id){const el=document.getElementById(id);if(!el)return;new MutationObserver(()=>requestAnimationFrame(patch)).observe(el,{childList:true,subtree:true});}
+function boot(){const s=document.createElement('style');s.textContent='.weapon81-art{display:block;width:92%;height:92%;overflow:visible;filter:drop-shadow(0 0 7px rgba(255,205,112,.18))}.gear-item .gicon:has(.weapon81-art),.detail-icon:has(.weapon81-art){background:radial-gradient(circle at 50% 45%,rgba(83,42,78,.28),transparent 48%),linear-gradient(180deg,#140e0d,#070606)!important}';document.head.appendChild(s);patch();observe('gearGrid');observe('gearDetail');document.getElementById('nav')?.addEventListener('click',()=>setTimeout(patch,0));document.getElementById('gearTabs')?.addEventListener('click',()=>setTimeout(patch,0));document.getElementById('gearGrid')?.addEventListener('click',()=>setTimeout(patch,0));}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',boot);else boot();
+})();
