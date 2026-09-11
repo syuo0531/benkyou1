@@ -1,9 +1,36 @@
-con:'🥾',rarity:5,set:'dragon',defense:17,cost:{ancient_scale:5},skills:{xp:0.05}},
+gs_storm',name:'雷帝の脚甲',slot:'legs',icon:'🥾',rarity:4,set:'storm',defense:14,cost:{large_horn:4},skills:{hardXp:0.04}},
+
+{id:'head_dragon',name:'古龍の角冠',slot:'head',icon:'👑',rarity:5,set:'dragon',defense:17,cost:{ancient_scale:3,shiny_ore:1},skills:{xp:0.05}},
+{id:'chest_dragon',name:'古龍の胸鎧',slot:'chest',icon:'🛡️',rarity:5,set:'dragon',defense:28,cost:{ancient_scale:6},skills:{xp:0.05}},
+{id:'arms_dragon',name:'古龍の篭手',slot:'arms',icon:'🥊',rarity:5,set:'dragon',defense:16,cost:{ancient_scale:4},skills:{hardXp:0.08}},
+{id:'waist_dragon',name:'古龍の腰鎧',slot:'waist',icon:'🧷',rarity:5,set:'dragon',defense:16,cost:{ancient_scale:4},skills:{material:0.1}},
+{id:'legs_dragon',name:'古龍の脚甲',slot:'legs',icon:'🥾',rarity:5,set:'dragon',defense:17,cost:{ancient_scale:5},skills:{xp:0.05}},
 
 {id:'charm_focus',name:'集中の護石',slot:'charm',icon:'💎',rarity:3,set:'none',defense:0,cost:{shiny_ore:2,large_horn:2},skills:{xp:0.05}},
 {id:'charm_guard',name:'守護の護石',slot:'charm',icon:'🧿',rarity:3,set:'none',defense:12,cost:{large_horn:3,shiny_ore:1},skills:{}},
 {id:'charm_hunter',name:'狩人の護石',slot:'charm',icon:'🔶',rarity:4,set:'none',defense:4,cost:{ancient_scale:2,medium_pelt:3},skills:{hardXp:0.08}},
 {id:'charm_rare',name:'輝石のお守り',slot:'charm',icon:'🔮',rarity:5,set:'none',defense:5,cost:{shiny_ore:3},skills:{material:0.15}}
+,{id:'wep_abyss_reaper',name:'深淵喰らいの魔断剣',slot:'weapon',icon:'🩸',rarity:5,set:'abyss',element:'dragon',power:1.24,cost:{ancient_scale:6,shiny_ore:2},skills:{xp:0.08,hardXp:0.12}}
+,{id:'wep_astral_blade',name:'天煌星の聖邪剣',slot:'weapon',icon:'✨',rarity:5,set:'astral',element:'thunder',power:1.22,cost:{ancient_scale:4,shiny_ore:4},skills:{xp:0.12,material:0.06}}
+,{id:'wep_crimson_burst',name:'紅蓮爆哭ブレイカー',slot:'weapon',icon:'💥',rarity:5,set:'blaze',element:'fire',power:1.2,cost:{large_horn:5,shiny_ore:3},skills:{hardXp:0.12}}
+,{id:'wep_frost_veil',name:'氷晶月影の太刀',slot:'weapon',icon:'🌙',rarity:5,set:'frost',element:'ice',power:1.18,cost:{medium_pelt:6,ancient_scale:2},skills:{xp:0.08,hardXp:0.08}}
+,{id:'wep_storm_howl',name:'迅雷冥皇ランス',slot:'weapon',icon:'🌩️',rarity:5,set:'storm',element:'thunder',power:1.2,cost:{large_horn:5,ancient_scale:2},skills:{material:0.1}}
+
+,{id:'head_abyss',name:'深淵王の兜',slot:'head',icon:'👹',rarity:5,set:'abyss',defense:18,cost:{ancient_scale:3,shiny_ore:1},skills:{hardXp:0.05}}
+,{id:'chest_abyss',name:'深淵王の胸鎧',slot:'chest',icon:'🛡️',rarity:5,set:'abyss',defense:29,cost:{ancient_scale:6,shiny_ore:1},skills:{xp:0.05}}
+,{id:'arms_abyss',name:'深淵王の呪腕',slot:'arms',icon:'🩶',rarity:5,set:'abyss',defense:17,cost:{ancient_scale:4},skills:{hardXp:0.07}}
+,{id:'waist_abyss',name:'深淵王の魔腰',slot:'waist',icon:'⛓️',rarity:5,set:'abyss',defense:17,cost:{ancient_scale:4,shiny_ore:1},skills:{material:0.08}}
+,{id:'legs_abyss',name:'深淵王の脚鎧',slot:'legs',icon:'🥾',rarity:5,set:'abyss',defense:18,cost:{ancient_scale:5},skills:{xp:0.04}}
+
+,{id:'head_astral',name:'天煌星の王冠',slot:'head',icon:'👑',rarity:5,set:'astral',defense:16,cost:{shiny_ore:3,ancient_scale:2},skills:{xp:0.06}}
+,{id:'chest_astral',name:'天煌星の外套',slot:'chest',icon:'🌠',rarity:5,set:'astral',defense:27,cost:{shiny_ore:5,ancient_scale:3},skills:{xp:0.05,material:0.05}}
+,{id:'arms_astral',name:'天煌星の腕甲',slot:'arms',icon:'✨',rarity:5,set:'astral',defense:15,cost:{shiny_ore:3,large_horn:2},skills:{hardXp:0.05}}
+,{id:'waist_astral',name:'天煌星の腰飾',slot:'waist',icon:'💫',rarity:5,set:'astral',defense:15,cost:{shiny_ore:3,medium_pelt:3},skills:{xp:0.04}}
+,{id:'legs_astral',name:'天煌星の脚甲',slot:'legs',icon:'🌌',rarity:5,set:'astral',defense:16,cost:{shiny_ore:4,ancient_scale:2},skills:{material:0.06}}
+
+,{id:'charm_abyss',name:'深淵の護石',slot:'charm',icon:'🖤',rarity:5,set:'abyss',defense:6,cost:{ancient_scale:2,shiny_ore:2},skills:{hardXp:0.12}}
+,{id:'charm_astral',name:'星界の護石',slot:'charm',icon:'💠',rarity:5,set:'astral',defense:5,cost:{shiny_ore:4,ancient_scale:1},skills:{xp:0.1,material:0.08}}
+
 ];
 const SLOTS=[['weapon','武器'],['head','頭'],['chest','胴'],['arms','腕'],['waist','腰'],['legs','脚'],['charm','お守り']];
 const ACH=[
@@ -15,10 +42,12 @@ const ACH=[
 {id:'streak7',title:'七日連戦',desc:'7日連続で学習',ok:s=>s.streak.current>=7},
 {id:'streak30',title:'不屈の学究者',desc:'30日連続で学習',ok:s=>s.streak.current>=30},
 {id:'study50',title:'五十時間の証',desc:'累計50時間学習',ok:s=>totalMinutes(s)>=3000},
-{id:'fullwolf',title:'黒狼を纏う者',desc:'黒狼防具5部位を作成',ok:s=>['head_wolf','chest_wolf','arms_wolf','waist_wolf','legs_wolf'].every(id=>s.craftedGear.includes(id))}
+{id:'fullwolf',title:'黒狼を纏う者',desc:'黒狼防具5部位を作成',ok:s=>['head_wolf','chest_wolf','arms_wolf','waist_wolf','legs_wolf'].every(id=>s.craftedGear.includes(id))},
+{id:'fullabyss',title:'深淵の覇者',desc:'深淵王防具5部位を作成',ok:s=>['head_abyss','chest_abyss','arms_abyss','waist_abyss','legs_abyss'].every(id=>s.craftedGear.includes(id))},
+{id:'fullastral',title:'星界の王',desc:'天煌星防具5部位を作成',ok:s=>['head_astral','chest_astral','arms_astral','waist_astral','legs_astral'].every(id=>s.craftedGear.includes(id))}
 ];
 let state=blankState(), gearSlot='weapon', selectedGear=null;
-function blankState(){return {xp:0,level:1,quests:[],log:[],totalDone:0,bosses:[],activeBossId:null,bestiary:[],achievements:[],reviewQueue:[],inventory:{},craftedGear:[],equipped:{weapon:null,head:null,chest:null,arms:null,waist:null,legs:null,charm:null},studyByDate:{},daily:{date:'',items:[]},streak:{current:0,best:0,lastDate:null},player:{hp:100,maxHp:100,lastRestDate:null},settings:{weeklyGoal:600}}}
+function blankState(){return {schemaVersion:6,xp:0,level:1,quests:[],log:[],totalDone:0,bosses:[],activeBossId:null,bestiary:[],achievements:[],reviewQueue:[],inventory:{},craftedGear:[],equipped:{weapon:null,head:null,chest:null,arms:null,waist:null,legs:null,charm:null},studyByDate:{},daily:{date:'',items:[]},streak:{current:0,best:0,lastDate:null},player:{hp:100,maxHp:100,lastRestDate:null},settings:{weeklyGoal:600}}}
 function dateKey(d=new Date()){return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`}
 function addDaysKey(base,days){const [y,m,d]=base.split('-').map(Number);const x=new Date(y,m-1,d+days);return dateKey(x)}
 function parseDateKey(k){const [y,m,d]=k.split('-').map(Number);return new Date(y,m-1,d)}
@@ -31,25 +60,11 @@ function gearById(id){return GEAR.find(g=>g.id===id)}
 function escapeHtml(v){const d=document.createElement('div');d.textContent=String(v??'');return d.innerHTML}
 async function storageGet(key){try{if(window.storage?.get){const r=await window.storage.get(key,false);return r?.value||null}}catch(e){}try{return localStorage.getItem(key)}catch(e){return null}}
 async function storageSet(key,val){try{if(window.storage?.set){await window.storage.set(key,val,false);return}}catch(e){}try{localStorage.setItem(key,val)}catch(e){}}
-async function load(){let raw=await storageGet(STORAGE_KEY), old=false;if(!raw){raw=await storageGet(OLD_KEY);old=!!raw}if(raw){try{state=migrate(JSON.parse(raw))}catch(e){state=blankState()}}ensureDaily();checkReviews();checkDeadlines();checkAchievements();render();await save();if(old)toast('以前のセーブデータをv3へ移行しました')}
-function migrate(s){const b=Object.assign(blankState(),s||{});b.studyByDate=b.studyByDate||{};b.streak=Object.assign({current:0,best:0,lastDate:null},b.streak||{});b.player=Object.assign({hp:100,maxHp:100,lastRestDate:null},b.player||{});b.player.maxHp=Math.max(50,Number(b.player.maxHp)||100);b.player.hp=Math.min(b.player.maxHp,Math.max(0,Number(b.player.hp)||b.player.maxHp));b.daily=b.daily||{date:'',items:[]};b.reviewQueue=b.reviewQueue||b.respawnQueue||[];b.inventory=b.inventory||{};b.craftedGear=b.craftedGear||[];b.equipped=Object.assign(blankState().equipped,b.equipped||{});if(b.equipped.armor&&!b.equipped.chest)b.equipped.chest=b.equipped.armor;b.equipped.armor=undefined;
-  // map old armor items into new chest equivalents without deleting ownership
-  if(b.craftedGear.includes('arm_medium')&&!b.craftedGear.includes('chest_wolf'))b.craftedGear.push('chest_wolf');
-  if(b.craftedGear.includes('arm_ancient')&&!b.craftedGear.includes('chest_dragon'))b.craftedGear.push('chest_dragon');
-  if(b.equipped.chest==='arm_medium')b.equipped.chest='chest_wolf';if(b.equipped.chest==='arm_ancient')b.equipped.chest='chest_dragon';
-  b.quests=(b.quests||[]).map(q=>({...q,minutes:Math.max(1,Number(q.minutes)||30)}));
-  b.bosses=(b.bosses||[]).map(x=>({...x,reviewStage:Number.isInteger(x.reviewStage)?x.reviewStage:-1,element:x.element||'none',weakness:x.weakness||'none'}));
-  b.reviewQueue=(b.reviewQueue||[]).map(r=>({name:r.name||'復習対象',tierKey:r.tierKey||'small',maxHp:Math.max(50,Number(r.maxHp)||200),dueDate:r.dueDate||dateKey(new Date(r.respawnAt||Date.now())),stage:Number.isInteger(r.stage)?r.stage:0,element:r.element||'none',weakness:r.weakness||'none'}));
-  return b}
-async function save(){await storageSet(STORAGE_KEY,JSON.stringify(state))}
-function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');clearTimeout(toast._t);toast._t=setTimeout(()=>t.classList.remove('show'),1800)}
-function ensureDaily(){const today=dateKey();if(state.daily.date===today&&state.daily.items?.length)return;state.daily={date:today,items:[{id:'focus',name:'集中して25分勉強する',xp:20,minutes:25,done:false},{id:'questions',name:'問題を30問解く',xp:25,minutes:30,done:false},{id:'review',name:'昨日までの内容を復習する',xp:30,minutes:20,done:false}]}}
-function touchStudyDay(minutes,name='学習'){const n=Math.max(0,Math.round(Number(minutes)||0));if(n<=0)return;const k=dateKey();state.studyByDate[k]=(state.studyByDate[k]||0)+n;updateStreak(k);state.log.push({name,minutes:n,xp:0,date:Date.now(),type:'study'})}
-function updateStreak(k){const last=state.streak.lastDate;if(last===k)return;if(!last){state.streak.current=1}else{const next=addDaysKey(last,1);state.streak.current=next===k?state.streak.current+1:1}state.streak.lastDate=k;state.streak.best=Math.max(state.streak.best,state.streak.current)}
-function gearEffects(){let xp=0,hardXp=0,material=0,defense=0;const setCount={bone:0,wolf:0,blaze:0,frost:0,storm:0,dragon:0};for(const [slot] of SLOTS){const g=gearById(state.equipped[slot]);if(!g)continue;xp+=g.skills.xp||0;hardXp+=g.skills.hardXp||0;material+=g.skills.material||0;defense+=Number(g.defense)||0;if(setCount[g.set]!=null)setCount[g.set]++}if(setCount.bone>=3)defense+=8;if(setCount.bone>=5)xp+=.03;if(setCount.wolf>=3)xp+=.05;if(setCount.wolf>=5)material+=.12;if(setCount.blaze>=3)hardXp+=.08;if(setCount.blaze>=5)xp+=.07;if(setCount.frost>=3)material+=.08;if(setCount.frost>=5)defense+=18;if(setCount.storm>=3)xp+=.06;if(setCount.storm>=5)hardXp+=.10;if(setCount.dragon>=3)xp+=.10;if(setCount.dragon>=5){xp+=.10;hardXp+=.15;defense+=20}return{xp,hardXp,material,defense,setCount}}
-function equippedWeapon(){return gearById(state.equipped.weapon)}
-function elementInfo(k){return ELEMENTS[k]||ELEMENTS.none}
-function attackMultiplier(boss){const w=equippedWeapon(),we=w?.element||'none';if(!boss||we==='none')return 1;if(boss.weakness===we)return 1.35;if(boss.element===we)return .75;return 1}
-function hunterDamageOnFailure(count=1){const defense=gearEffects().defense;const per=Math.max(5,20-Math.floor(defense/12));return per*Math.max(1,count)}
-function counterRateForBoss(boss){return ({small:.12,medium:.18,large:.25,ancient:.32}[boss?.tierKey]||.12)}
-function counterBaseDamage(boss){return ({small:10,medium:15,large:22,ancient:3
+async function load(){
+  let raw=null, hitKey=null;
+  for(const key of [STORAGE_KEY, STORAGE_KEY_VERSIONED, ...LEGACY_KEYS]){ raw=await storageGet(key); if(raw){ hitKey=key; break; } }
+  if(raw){ try{ state=migrate(JSON.parse(raw), hitKey) }catch(e){ state=blankState() } }
+  ensureDaily();checkReviews();checkDeadlines();checkAchievements();render();await save();
+  if(hitKey && hitKey!==STORAGE_KEY && hitKey!==STORAGE_KEY_VERSIONED) toast('前のセーブデータをそのまま引き継いだ');
+}
+function migrate(s, sourceKey=''){const b=Object.assign(blankState(),s||{});b.schemaVersion=6;b.studyByDate=b.studyByDate||{};b.streak=Object.assign({current:0,best:0,lastDate:null},b.streak||{});b.player=Object.assign({hp:100,maxHp:100,lastRestDate:null},b.player||{});b.player.maxHp=Math.max(50,Number(b.player.maxHp)||100);b.player.hp=Math.min(b.player.maxHp,Math.max(0,Number(b.player.hp)||b.player.maxHp));b.daily=b.daily||{date:'',items:[]};b.reviewQueue=b.reviewQueue||b.respawnQueue||[];b.inventory=b.inventory||{};b.craftedGear=[...new Set(b.craftedGear||[])];b.equipped=Object.assign(blankState().equipped
