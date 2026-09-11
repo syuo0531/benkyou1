@@ -4,37 +4,24 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>ハンターズギルド Study RPG v6.4</title>
-<style>body{margin:0;background:#100d0b;color:#eee1c8;font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Yu Gothic",Meiryo,sans-serif;display:grid;place-items:center;min-height:100vh}#loading{padding:24px;text-align:center;font-weight:800}</style>
+<style>
+body{margin:0;background:#100d0b;color:#eee1c8;font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Yu Gothic",Meiryo,sans-serif;display:grid;place-items:center;min-height:100vh}
+#loading{padding:24px;text-align:center;font-weight:800}
+</style>
 </head>
 <body>
 <div id="loading">ハンターズギルド v6.4 を読み込み中…</div>
 <script>
 (async()=>{
   try{
-    const urls=Array.from({length:9},(_,i)=>`chunks/part${String(i).padStart(2,'0')}.txt?v=64`);
+    const urls=Array.from({length:9},(_,i)=>`chunks/part${String(i).padStart(2,'0')}.txt?v=64-final`);
     const parts=await Promise.all(urls.map(u=>fetch(u,{cache:'no-store'}).then(r=>{if(!r.ok)throw new Error(u);return r.text()})));
-    let html=parts.join('');
-
-    html=html.replace(
-      "function canCraft(g){return Object.entries(g.cost).every(([m,n])=>(state.inventory[m]||0)>=n)}",
-      "function canCraft(g){try{const costs=(g&&g.cost&&typeof g.cost==='object')?g.cost:{};const inv=(state&&state.inventory&&typeof state.inventory==='object')?state.inventory:{};return Object.entries(costs).every(([m,n])=>(Number(inv[m])||0)>=(Number(n)||0))}catch(e){return false}}"
-    );
-
-    html=html.replace(
-      "function craft(g){if(state.craftedGear.includes(g.id)||!canCraft(g))return false;for(const [m,n] of Object.entries(g.cost))state.inventory[m]-=n;state.craftedGear.push(g.id);return true}",
-      "function craft(g){try{if(!g)return false;if(!Array.isArray(state.craftedGear))state.craftedGear=[];if(!state.inventory||typeof state.inventory!=='object')state.inventory={};if(state.craftedGear.includes(g.id)||!canCraft(g))return false;for(const [m,n] of Object.entries((g.cost&&typeof g.cost==='object')?g.cost:{}))state.inventory[m]=Math.max(0,(Number(state.inventory[m])||0)-(Number(n)||0));state.craftedGear.push(g.id);return true}catch(e){console.error('craft error',e);return false}}"
-    );
-
-    html=html.replace(
-      "applyVisuals();renderGearTabs();renderGearGrid();renderGearDetail();",
-      "renderGearTabs();renderGearGrid();renderGearDetail();try{applyVisuals()}catch(e){console.warn('gear preview skipped',e)};"
-    );
-
+    const html=parts.join('');
     document.open();
     document.write(html);
     document.close();
   }catch(e){
-    document.getElementById('loading').textContent='読み込みに失敗しました。ページを再読み込みしてください。';
+    document.getElementById('loading').textContent='読み込みに失敗しました。もう一度ページを開き直してください。';
     console.error(e);
   }
 })();
