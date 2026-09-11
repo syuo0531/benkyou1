@@ -1,4 +1,11 @@
-iv></div>
+tes">0分</b><span>今週</span></div><div class="quick-stat"><b id="streakMini">0日</b><span>連続学習</span></div><div class="quick-stat"><b id="defenseMini">0</b><span>防御力</span></div></div>
+      </div>
+
+      <div class="section"><div class="section-title">今日の狩猟記録</div><div class="card goal-card"><div class="goal-row"><div><div class="goal-title">連続学習ストリーク</div><div class="goal-note" id="streakNote">今日1つ達成すると継続</div></div><div class="streak" id="streakBig">🔥 0</div></div><div class="weekbar" id="weekDots"></div></div></div>
+
+      <div class="section"><div class="section-title">デイリークエスト</div><div class="daily-grid" id="dailyGrid"></div></div>
+
+      <div class="section"><div class="section-title">討伐対象</div><div id="bossArea"></div></div>
 
       <div class="section"><div class="section-title">次の復習</div><div class="review-list" id="homeReview"></div></div>
     </section>
@@ -24,7 +31,7 @@ iv></div>
       <div class="section"><div class="section-title">装備工房</div><div class="card hunter-stage"><div class="hunter-scene"><div class="moon"></div><div class="mountains"></div><div class="gear-slots" id="gearSlots"></div>
         <svg class="hunter-svg" viewBox="0 0 260 340" aria-label="装備中のハンター">
           <defs><linearGradient id="skin" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#d6b496"/><stop offset="1" stop-color="#9d795f"/></linearGradient><linearGradient id="metal" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#8f8981"/><stop offset=".45" stop-color="#393430"/><stop offset="1" stop-color="#171411"/></linearGradient><linearGradient id="blade" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f1c266"/><stop offset=".35" stop-color="#b93d28"/><stop offset="1" stop-color="#2b1510"/></linearGradient></defs>
-          <g id="visWeapon" opacity=".15"><path d="M182 18 L208 34 L125 255 L103 241 Z" fill="url(#blade)"/><path d="M165 27 L200 47" stroke="#ddc78d" stroke-width="6"/><path d="M108 239 L137 252" stroke="#241c16" stroke-width="12" stroke-linecap="round"/></g>
+          <g id="visWeapon" opacity=".15"><path id="visWeaponBlade" d="M182 18 L208 34 L125 255 L103 241 Z" fill="url(#blade)"/><path id="visWeaponEdge" d="M165 27 L200 47" stroke="#ddc78d" stroke-width="6"/><path id="visWeaponGrip" d="M108 239 L137 252" stroke="#241c16" stroke-width="12" stroke-linecap="round"/></g>
           <path id="visCape" d="M82 117 Q130 90 174 119 L199 300 Q139 327 66 294 Z" fill="#421b17" opacity=".25"/>
           <circle cx="128" cy="66" r="31" fill="url(#skin)"/><path d="M97 66 Q102 28 130 27 Q161 30 159 75 Q146 53 131 45 Q112 58 97 66Z" fill="#17130f"/>
           <path d="M101 98 Q128 79 156 98 L167 132 L94 132 Z" fill="#2b2723"/>
@@ -53,6 +60,4 @@ iv></div>
   </main>
 </div>
 
-<nav class="nav" id="nav"><button data-view="home" class="active"><b>⌂</b>ホーム</button><button data-view="quests"><b>📜</b>クエスト</button><button data-view="gear"><b>⚔</b>装備</button><button data-view="bestiary"><b>📖</b>図鑑</button><button data-view="records"><b>▥</b>記録</button></nav>
-
-<div class="modal" id="editQuestModal"><div class="modal-card"><div class="modal-head"><b>クエスト編集</b><button class="btn icon-btn" data-close>×</button></div><input type="hidden" id="editQuestId"><div class="field"><label>内容</label><input id="editQuestName"></div><div class="grid2"><div class="field"><label>勉強時間（分）</label><input id="editQuestMinutes" type="number" min="1" max="600"></div><div class="field"><label>難易度</label><select id="editQuestDiff"><option value="easy">易 10XP</option><option value="normal">普通 25XP</option><option value="hard">難 50XP</option><option value="epic">大型 100XP</option></select></div></div><div class="modal-action
+<nav class="nav" id="nav"><button data-view="home" class="active"><b>⌂</b>ホーム</button><button data-view="quests"><b>📜</b>クエスト</button><button data-view="gear"><b>⚔</b>装備</button><button data-view="bestiary"><b>📖</b>図鑑</button><button data-view="rec
