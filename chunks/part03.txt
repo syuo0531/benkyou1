@@ -1,5 +1,4 @@
-><option value="epic">大型 100XP</option></select></div></div><div class="modal-actions"><button class="btn danger" id="deleteQuest">削除</button><button class="btn primary" id="saveQuestEdit">保存</button></div></div></div>
-<div class="modal" id="editBossModal"><div class="modal-card"><div class="modal-head"><b>討伐対象編集</b><button class="btn icon-btn" data-close>×</button></div><input type="hidden" id="editBossId"><div class="field"><label>名前</label><input id="editBossName"></div><div class="grid2"><div class="field"><label>最大HP</label><input id="editBossHp" type="number" min="50" max="99999"></div><div class="field"><label>脅威度</label><select id="editBossTier"><option value="small">小型</option><option value="medium">中型</option><option value="large">大型</option><option value="ancient">古龍級</option></select></div></div><div class="grid2"><div class="field"><label>ボス属性</label><select id="editBossElement"><option value="none">無属性</option><option value="fire">火</option><option value="water">水</option><option value="thunder">雷</option><option value="ice">氷</option><option value="dragon">龍</option></select></div><div class="field"><label>弱点属性</label><select id="editBossWeakness"><option value="none">なし</option><option value="fire">火</option><option value="water">水</option><option value="thunder">雷</option><option value="ice">氷</option><option value="dragon">龍</option></select></div></div><div class="modal-actions"><button class="btn danger" id="deleteBoss">削除</button><button class="btn primary" id="saveBossEdit">保存</button></div></div></div>
+ class="field"><label>ボス属性</label><select id="editBossElement"><option value="none">無属性</option><option value="fire">火</option><option value="water">水</option><option value="thunder">雷</option><option value="ice">氷</option><option value="dragon">龍</option></select></div><div class="field"><label>弱点属性</label><select id="editBossWeakness"><option value="none">なし</option><option value="fire">火</option><option value="water">水</option><option value="thunder">雷</option><option value="ice">氷</option><option value="dragon">龍</option></select></div></div><div class="modal-actions"><button class="btn danger" id="deleteBoss">削除</button><button class="btn primary" id="saveBossEdit">保存</button></div></div></div>
 <div class="toast" id="toast"></div>
 
 <script>
@@ -63,4 +62,11 @@ const GEAR=[
 {id:'waist_dragon',name:'古龍の腰鎧',slot:'waist',icon:'🧷',rarity:5,set:'dragon',defense:16,cost:{ancient_scale:4},skills:{material:0.1}},
 {id:'legs_dragon',name:'古龍の脚甲',slot:'legs',icon:'🥾',rarity:5,set:'dragon',defense:17,cost:{ancient_scale:5},skills:{xp:0.05}},
 
-{id:'charm_
+{id:'charm_focus',name:'集中の護石',slot:'charm',icon:'💎',rarity:3,set:'none',defense:0,cost:{shiny_ore:2,large_horn:2},skills:{xp:0.05}},
+{id:'charm_guard',name:'守護の護石',slot:'charm',icon:'🧿',rarity:3,set:'none',defense:12,cost:{large_horn:3,shiny_ore:1},skills:{}},
+{id:'charm_hunter',name:'狩人の護石',slot:'charm',icon:'🔶',rarity:4,set:'none',defense:4,cost:{ancient_scale:2,medium_pelt:3},skills:{hardXp:0.08}},
+{id:'charm_rare',name:'輝石のお守り',slot:'charm',icon:'🔮',rarity:5,set:'none',defense:5,cost:{shiny_ore:3},skills:{material:0.15}}
+,{id:'wep_abyss_reaper',name:'深淵喰らいの魔断剣',slot:'weapon',icon:'🩸',rarity:5,set:'abyss',element:'dragon',power:1.24,cost:{ancient_scale:6,shiny_ore:2},skills:{xp:0.08,hardXp:0.12}}
+,{id:'wep_astral_blade',name:'天煌星の聖邪剣',slot:'weapon',icon:'✨',rarity:5,set:'astral',element:'thunder',power:1.22,cost:{ancient_scale:4,shiny_ore:4},skills:{xp:0.12,material:0.06}}
+,{id:'wep_crimson_burst',name:'紅蓮爆哭ブレイカー',slot:'weapon',icon:'💥',rarity:5,set:'blaze',element:'fire',power:1.2,cost:{large_horn:5,shiny_ore:3},skills:{hardXp:0.12}}
+,{id:'wep_frost_veil',name:'氷晶月影の太刀',slot:'weapon',icon:'🌙',rarity:5,set:'frost'
