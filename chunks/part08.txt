@@ -1,4 +1,7 @@
-ventListener('click',e=>{const b=e.target.closest('button[data-view]');if(!b)return;document.querySelectorAll('.view').forEach(v=>v.classList.toggle('hidden',v.dataset.view!==b.dataset.view));document.querySelectorAll('#nav button').forEach(x=>x.classList.toggle('active',x===b));window.scrollTo({top:0,behavior:'smooth'})});
+oast(msg)}
+function openModal(id){document.getElementById(id).classList.add('show')}function closeModal(el){el.closest('.modal')?.classList.remove('show')}
+// navigation
+document.getElementById('nav').addEventListener('click',e=>{const b=e.target.closest('button[data-view]');if(!b)return;document.querySelectorAll('.view').forEach(v=>v.classList.toggle('hidden',v.dataset.view!==b.dataset.view));document.querySelectorAll('#nav button').forEach(x=>x.classList.toggle('active',x===b));window.scrollTo({top:0,behavior:'smooth'})});
 // daily
 document.getElementById('dailyGrid').addEventListener('click',async e=>{const b=e.target.closest('[data-daily]');if(!b)return;const it=state.daily.items.find(x=>x.id===b.dataset.daily);if(!it||it.done)return;it.done=true;const res=completeLearning(it.name,it.xp,it.minutes,'normal');await finishResult(res)});
 // add quest
