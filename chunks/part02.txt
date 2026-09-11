@@ -1,14 +1,4 @@
-今日1つ達成すると継続</div></div><div class="streak" id="streakBig">🔥 0</div></div><div class="weekbar" id="weekDots"></div></div></div>
-
-      <div class="section"><div class="section-title">デイリークエスト</div><div class="daily-grid" id="dailyGrid"></div></div>
-
-      <div class="section"><div class="section-title">討伐対象</div><div id="bossArea"></div></div>
-
-      <div class="section"><div class="section-title">次の復習</div><div class="review-list" id="homeReview"></div></div>
-    </section>
-
-    <section class="view hidden" data-view="quests">
-      <div class="section"><div class="section-title">受注中のクエスト</div><div class="quest-list" id="questList"></div></div>
+iv class="section-title">受注中のクエスト</div><div class="quest-list" id="questList"></div></div>
       <div class="section"><div class="section-title">新しいクエスト</div><div class="card addbox">
         <div class="field"><label>内容</label><input id="questName" maxlength="70" placeholder="例：解剖学 問題を30問解く"></div>
         <div class="grid2"><div class="field"><label>予定勉強時間（分）</label><input id="questMinutes" type="number" min="1" max="600" value="30"></div><div class="field"><label>難易度</label><select id="questDiff"><option value="easy">易 10XP</option><option value="normal" selected>普通 25XP</option><option value="hard">難 50XP</option><option value="epic">大型 100XP</option></select></div></div>
@@ -59,4 +49,5 @@
 
 <nav class="nav" id="nav"><button data-view="home" class="active"><b>⌂</b>ホーム</button><button data-view="quests"><b>📜</b>クエスト</button><button data-view="gear"><b>⚔</b>装備</button><button data-view="bestiary"><b>📖</b>図鑑</button><button data-view="records"><b>▥</b>記録</button></nav>
 
-<div class="modal" id="editQuestModal"><div class="modal-card"><div class="modal-head"><b>クエスト編集</b><button class="btn icon-btn" data-close>×</button></div><input type="hidden" id="editQuestId"><div class="field"><label>内容</label><input id="editQuestName"></div><div class="grid2"><div class="field"><label>勉強時間（分）</label><input id="editQuestMinutes" type="number" min="1" max="600"></div><div class="field"><label>難易度</label><select id="editQuestDiff"><option value="easy">易 10XP</option><option value="normal">普通 25XP</option><option value="hard">難 50XP</option>
+<div class="modal" id="editQuestModal"><div class="modal-card"><div class="modal-head"><b>クエスト編集</b><button class="btn icon-btn" data-close>×</button></div><input type="hidden" id="editQuestId"><div class="field"><label>内容</label><input id="editQuestName"></div><div class="grid2"><div class="field"><label>勉強時間（分）</label><input id="editQuestMinutes" type="number" min="1" max="600"></div><div class="field"><label>難易度</label><select id="editQuestDiff"><option value="easy">易 10XP</option><option value="normal">普通 25XP</option><option value="hard">難 50XP</option><option value="epic">大型 100XP</option></select></div></div><div class="modal-actions"><button class="btn danger" id="deleteQuest">削除</button><button class="btn primary" id="saveQuestEdit">保存</button></div></div></div>
+<div class="modal" id="editBossModal"><div class="modal-card"><div class="modal-head"><b>討伐対象編集</b><button class="btn icon-btn" data-close>×</button></div><input type="hidden" id="editBossId"><div class="field"><label>名前</label><input id="editBossName"></div><div class="grid2"><div class="field"><label>最大HP</label><input id="editBossHp" type="number" min="50" max="99999"></div><div class="field"><label>脅威度</label><select id="editBossTier"><option value="small">小型</option><option value="medium">中型</option><option value="large">大型</option><option value="ancient">古龍級</option></select></div></div><div class="grid2"><div
