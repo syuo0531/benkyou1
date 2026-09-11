@@ -1,11 +1,4 @@
-focus',name:'集中の護石',slot:'charm',icon:'💎',rarity:3,set:'none',defense:0,cost:{shiny_ore:2,large_horn:2},skills:{xp:0.05}},
-{id:'charm_guard',name:'守護の護石',slot:'charm',icon:'🧿',rarity:3,set:'none',defense:12,cost:{large_horn:3,shiny_ore:1},skills:{}},
-{id:'charm_hunter',name:'狩人の護石',slot:'charm',icon:'🔶',rarity:4,set:'none',defense:4,cost:{ancient_scale:2,medium_pelt:3},skills:{hardXp:0.08}},
-{id:'charm_rare',name:'輝石のお守り',slot:'charm',icon:'🔮',rarity:5,set:'none',defense:5,cost:{shiny_ore:3},skills:{material:0.15}}
-,{id:'wep_abyss_reaper',name:'深淵喰らいの魔断剣',slot:'weapon',icon:'🩸',rarity:5,set:'abyss',element:'dragon',power:1.24,cost:{ancient_scale:6,shiny_ore:2},skills:{xp:0.08,hardXp:0.12}}
-,{id:'wep_astral_blade',name:'天煌星の聖邪剣',slot:'weapon',icon:'✨',rarity:5,set:'astral',element:'thunder',power:1.22,cost:{ancient_scale:4,shiny_ore:4},skills:{xp:0.12,material:0.06}}
-,{id:'wep_crimson_burst',name:'紅蓮爆哭ブレイカー',slot:'weapon',icon:'💥',rarity:5,set:'blaze',element:'fire',power:1.2,cost:{large_horn:5,shiny_ore:3},skills:{hardXp:0.12}}
-,{id:'wep_frost_veil',name:'氷晶月影の太刀',slot:'weapon',icon:'🌙',rarity:5,set:'frost',element:'ice',power:1.18,cost:{medium_pelt:6,ancient_scale:2},skills:{xp:0.08,hardXp:0.08}}
+',element:'ice',power:1.18,cost:{medium_pelt:6,ancient_scale:2},skills:{xp:0.08,hardXp:0.08}}
 ,{id:'wep_storm_howl',name:'迅雷冥皇ランス',slot:'weapon',icon:'🌩️',rarity:5,set:'storm',element:'thunder',power:1.2,cost:{large_horn:5,ancient_scale:2},skills:{material:0.1}}
 
 ,{id:'head_abyss',name:'深淵王の兜',slot:'head',icon:'👹',rarity:5,set:'abyss',defense:18,cost:{ancient_scale:3,shiny_ore:1},skills:{hardXp:0.05}}
@@ -39,7 +32,7 @@ const ACH=[
 {id:'fullastral',title:'星界の王',desc:'天煌星防具5部位を作成',ok:s=>['head_astral','chest_astral','arms_astral','waist_astral','legs_astral'].every(id=>s.craftedGear.includes(id))}
 ];
 let state=blankState(), gearSlot='weapon', selectedGear=null;
-function blankState(){return {schemaVersion:62,xp:0,level:1,quests:[],log:[],totalDone:0,bosses:[],activeBossId:null,bestiary:[],achievements:[],reviewQueue:[],inventory:{},craftedGear:[],equipped:{weapon:null,head:null,chest:null,arms:null,waist:null,legs:null,charm:null},studyByDate:{},daily:{date:'',items:[]},streak:{current:0,best:0,lastDate:null},player:{hp:100,maxHp:100,lastRestDate:null},settings:{weeklyGoal:600,starterGranted:false}}}
+function blankState(){return {schemaVersion:63,xp:0,level:1,quests:[],log:[],totalDone:0,bosses:[],activeBossId:null,bestiary:[],achievements:[],reviewQueue:[],inventory:{},craftedGear:[],equipped:{weapon:null,head:null,chest:null,arms:null,waist:null,legs:null,charm:null},studyByDate:{},daily:{date:'',items:[]},streak:{current:0,best:0,lastDate:null},player:{hp:100,maxHp:100,lastRestDate:null},settings:{weeklyGoal:600,starterGranted:false}}}
 function dateKey(d=new Date()){return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`}
 function addDaysKey(base,days){const [y,m,d]=base.split('-').map(Number);const x=new Date(y,m-1,d+days);return dateKey(x)}
 function parseDateKey(k){const [y,m,d]=k.split('-').map(Number);return new Date(y,m-1,d)}
@@ -59,8 +52,16 @@ async function load(){
   ensureDaily();checkReviews();checkDeadlines();checkAchievements();render();await save();
   if(hitKey && hitKey!==STORAGE_KEY && hitKey!==STORAGE_KEY_VERSIONED) toast('前のセーブデータをそのまま引き継いだ');
 }
-function migrate(s, sourceKey=''){const b=Object.assign(blankState(),s||{});b.schemaVersion=62;b.studyByDate=b.studyByDate||{};b.streak=Object.assign({current:0,best:0,lastDate:null},b.streak||{});b.player=Object.assign({hp:100,maxHp:100,lastRestDate:null},b.player||{});b.player.maxHp=Math.max(50,Number(b.player.maxHp)||100);b.player.hp=Math.min(b.player.maxHp,Math.max(0,Number(b.player.hp)||b.player.maxHp));b.daily=b.daily||{date:'',items:[]};b.reviewQueue=b.reviewQueue||b.respawnQueue||[];b.inventory=b.inventory||{};b.settings=Object.assign({weeklyGoal:600,starterGranted:false},b.settings||{});if(!b.settings.starterGranted){b.inventory.small_fang=(b.inventory.small_fang||0)+8;b.inventory.medium_pelt=(b.inventory.medium_pelt||0)+2;b.settings.starterGranted=true;b.log=(b.log||[]);b.log.push({name:'ギルド支給品：小型の牙×8・中型の毛皮×2',date:Date.now(),type:'system'})}b.craftedGear=[...new Set(b.craftedGear||[])];b.equipped=Object.assign(blankState().equipped,b.equipped||{});if(b.equipped.armor&&!b.equipped.chest)b.equipped.chest=b.equipped.armor;b.equipped.armor=undefined;
+function migrate(s, sourceKey=''){const b=Object.assign(blankState(),s||{});b.schemaVersion=63;b.studyByDate=b.studyByDate||{};b.streak=Object.assign({current:0,best:0,lastDate:null},b.streak||{});b.player=Object.assign({hp:100,maxHp:100,lastRestDate:null},b.player||{});b.player.maxHp=Math.max(50,Number(b.player.maxHp)||100);b.player.hp=Math.min(b.player.maxHp,Math.max(0,Number(b.player.hp)||b.player.maxHp));b.daily=b.daily||{date:'',items:[]};b.reviewQueue=b.reviewQueue||b.respawnQueue||[];b.inventory=(b.inventory&&typeof b.inventory==='object'&&!Array.isArray(b.inventory))?b.inventory:{};b.settings=Object.assign({weeklyGoal:600,starterGranted:false},(b.settings&&typeof b.settings==='object')?b.settings:{});if(!b.settings.starterGranted){b.inventory.small_fang=(b.inventory.small_fang||0)+8;b.inventory.medium_pelt=(b.inventory.medium_pelt||0)+2;b.settings.starterGranted=true;b.log=(b.log||[]);b.log.push({name:'ギルド支給品：小型の牙×8・中型の毛皮×2',date:Date.now(),type:'system'})}b.craftedGear=Array.isArray(b.craftedGear)?[...new Set(b.craftedGear.filter(x=>typeof x==='string'))]:[];b.equipped=Object.assign(blankState().equipped,(b.equipped&&typeof b.equipped==='object')?b.equipped:{});if(b.equipped.armor&&!b.equipped.chest)b.equipped.chest=b.equipped.armor;b.equipped.armor=undefined;
   if(b.craftedGear.includes('arm_medium')&&!b.craftedGear.includes('chest_wolf'))b.craftedGear.push('chest_wolf');
   if(b.craftedGear.includes('arm_ancient')&&!b.craftedGear.includes('chest_dragon'))b.craftedGear.push('chest_dragon');
   if(b.equipped.chest==='arm_medium')b.equipped.chest='chest_wolf'; if(b.equipped.chest==='arm_ancient')b.equipped.chest='chest_dragon';
-  b.quests=(b.quests||[]).map(q=>({...q,minutes:Math.max(1,Number(q.minutes)||30),diffKey:q.diffKey||'normal',xp:Number(q.xp)||DIFF[q.diffKe
+  b.quests=(b.quests||[]).map(q=>({...q,minutes:Math.max(1,Number(q.minutes)||30),diffKey:q.diffKey||'normal',xp:Number(q.xp)||DIFF[q.diffKey||'normal'].xp}));
+  b.bosses=(b.bosses||[]).map(x=>({...x,reviewStage:Number.isInteger(x.reviewStage)?x.reviewStage:-1,element:x.element||'none',weakness:x.weakness||'none'}));
+  b.reviewQueue=(b.reviewQueue||[]).map(r=>({name:r.name||'復習対象',tierKey:r.tierKey||'small',element:r.element||'none',weakness:r.weakness||'none',maxHp:Math.max(50,Number(r.maxHp)||200),dueDate:r.dueDate||dateKey(new Date(r.respawnAt||Date.now())),stage:Number.isInteger(r.stage)?r.stage:0}));
+  return b
+}
+async function save(){state.schemaVersion=63; const payload=JSON.stringify(state); await storageSet(STORAGE_KEY,payload); await storageSet(STORAGE_KEY_VERSIONED,payload)}
+function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');clearTimeout(toast._t);toast._t=setTimeout(()=>t.classList.remove('show'),1800)}
+function ensureDaily(){const today=dateKey();if(state.daily.date===today&&state.daily.items?.length)return;state.daily={date:today,items:[{id:'focus',name:'集中して25分勉強する',xp:20,minutes:25,done:false},{id:'questions',name:'問題を30問解く',xp:25,minutes:30,done:false},{id:'review',name:'昨日までの内容を復習する',xp:30,minutes:20,done:false}]}}
+function touchStudyDay
