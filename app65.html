@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>ハンターズギルド Study RPG v6.4</title>
+<style>
+html,body{margin:0;min-height:100%;background:#100d0b;color:#eee1c8;font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Yu Gothic",Meiryo,sans-serif}
+#boot{min-height:100vh;display:grid;place-items:center;padding:24px;text-align:center;font-weight:800}
+</style>
+</head>
+<body>
+<div id="boot">ハンターズギルド v6.4 を起動中…</div>
+<script>
+(async()=>{
+  const boot=document.getElementById('boot');
+  try{
+    const urls=Array.from({length:9},(_,i)=>`chunks/part${String(i).padStart(2,'0')}.txt?app65=1`);
+    const parts=await Promise.all(urls.map(async u=>{
+      const r=await fetch(u,{cache:'no-store'});
+      if(!r.ok) throw new Error('読み込み失敗: '+u);
+      return await r.text();
+    }));
+    const html=parts.join('');
+    const parsed=new DOMParser().parseFromString(html,'text/html');
+
+    const scripts=[...parsed.querySelectorAll('script')].map(s=>({src:s.getAttribute('src'),type:s.getAttribute('type'),code:s.textContent||''}));
+    parsed.querySelectorAll('script').forEach(s=>s.remove());
+
+    document.title=parsed.title||document.title;
+    document.head.innerHTML='';
+    [...parsed.head.childNodes].forEach(n=>document.head.appendChild(document.importNode(n,true)));
+    document.body.innerHTML='';
+    [...parsed.body.childNodes].forEach(n=>document.body.appendChild(document.importNode(n,true)));
+
+    for(const spec of scripts){
+      await new Promise((resolve,reject)=>{
+        const s=document.createElement('script');
+        if(spec.type)s.type=spec.type;
+        if(spec.src){s.src=spec.src;s.onload=resolve;s.onerror=()=>reject(new Error('script load failed: '+spec.src));}
+        else {s.textContent=spec.code;resolve();}
+        document.body.appendChild(s);
+      });
+    }
+  }catch(e){
+    document.body.innerHTML='<div style="padding:24px;max-width:520px;margin:auto"><h2>起動エラー</h2><p>アプリの起動に失敗しました。</p><pre style="white-space:pre-wrap;font-size:11px">'+String(e&&e.stack||e).replace(/[&<>]/g,s=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[s]))+'</pre></div>';
+  }
+})();
+</script>
+</body>
+</html>
