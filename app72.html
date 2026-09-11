@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>ハンターズギルド Study RPG v6.7</title>
+<style>html,body{margin:0;min-height:100%;background:#100d0b;color:#eee1c8;font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Yu Gothic",Meiryo,sans-serif}#boot{min-height:100vh;display:grid;place-items:center;padding:24px;text-align:center;font-weight:800}</style>
+</head>
+<body>
+<div id="boot">ハンターズギルド v6.7 を起動中…</div>
+<script>
+(async()=>{
+  try{
+    const r=await fetch('app71.html?v=72',{cache:'no-store'});
+    if(!r.ok)throw new Error('画面データの読み込みに失敗');
+    const html=await r.text();
+    const parsed=new DOMParser().parseFromString(html,'text/html');
+    parsed.querySelectorAll('script').forEach(s=>s.remove());
+    document.title='ハンターズギルド Study RPG v6.7';
+    document.head.querySelectorAll('link[rel="stylesheet"],style').forEach(n=>n.remove());
+    const css=document.createElement('link');css.rel='stylesheet';css.href='app70.css?v=72';document.head.appendChild(css);
+    document.body.innerHTML=parsed.body.innerHTML;
+
+    const files=['app71a1.js','app71a3.js','app71a2.js','app71b1.js','app71b2.js','app71b3.js','app71c.js'];
+    for(const f of files){
+      await new Promise((resolve,reject)=>{
+        const s=document.createElement('script');
+        s.src=f+'?v=72';
+        s.onload=resolve;
+        s.onerror=()=>reject(new Error(f+' の読み込みに失敗'));
+        document.body.appendChild(s);
+      });
+    }
+  }catch(e){
+    document.body.innerHTML='<div style="padding:28px;max-width:520px;margin:auto"><h2>起動エラー</h2><p>'+String(e&&e.message||e)+'</p></div>';
+  }
+})();
+</script>
+</body>
+</html>
