@@ -1,12 +1,4 @@
-gs_storm',name:'雷帝の脚甲',slot:'legs',icon:'🥾',rarity:4,set:'storm',defense:14,cost:{large_horn:4},skills:{hardXp:0.04}},
-
-{id:'head_dragon',name:'古龍の角冠',slot:'head',icon:'👑',rarity:5,set:'dragon',defense:17,cost:{ancient_scale:3,shiny_ore:1},skills:{xp:0.05}},
-{id:'chest_dragon',name:'古龍の胸鎧',slot:'chest',icon:'🛡️',rarity:5,set:'dragon',defense:28,cost:{ancient_scale:6},skills:{xp:0.05}},
-{id:'arms_dragon',name:'古龍の篭手',slot:'arms',icon:'🥊',rarity:5,set:'dragon',defense:16,cost:{ancient_scale:4},skills:{hardXp:0.08}},
-{id:'waist_dragon',name:'古龍の腰鎧',slot:'waist',icon:'🧷',rarity:5,set:'dragon',defense:16,cost:{ancient_scale:4},skills:{material:0.1}},
-{id:'legs_dragon',name:'古龍の脚甲',slot:'legs',icon:'🥾',rarity:5,set:'dragon',defense:17,cost:{ancient_scale:5},skills:{xp:0.05}},
-
-{id:'charm_focus',name:'集中の護石',slot:'charm',icon:'💎',rarity:3,set:'none',defense:0,cost:{shiny_ore:2,large_horn:2},skills:{xp:0.05}},
+focus',name:'集中の護石',slot:'charm',icon:'💎',rarity:3,set:'none',defense:0,cost:{shiny_ore:2,large_horn:2},skills:{xp:0.05}},
 {id:'charm_guard',name:'守護の護石',slot:'charm',icon:'🧿',rarity:3,set:'none',defense:12,cost:{large_horn:3,shiny_ore:1},skills:{}},
 {id:'charm_hunter',name:'狩人の護石',slot:'charm',icon:'🔶',rarity:4,set:'none',defense:4,cost:{ancient_scale:2,medium_pelt:3},skills:{hardXp:0.08}},
 {id:'charm_rare',name:'輝石のお守り',slot:'charm',icon:'🔮',rarity:5,set:'none',defense:5,cost:{shiny_ore:3},skills:{material:0.15}}
@@ -47,7 +39,7 @@ const ACH=[
 {id:'fullastral',title:'星界の王',desc:'天煌星防具5部位を作成',ok:s=>['head_astral','chest_astral','arms_astral','waist_astral','legs_astral'].every(id=>s.craftedGear.includes(id))}
 ];
 let state=blankState(), gearSlot='weapon', selectedGear=null;
-function blankState(){return {schemaVersion:6,xp:0,level:1,quests:[],log:[],totalDone:0,bosses:[],activeBossId:null,bestiary:[],achievements:[],reviewQueue:[],inventory:{},craftedGear:[],equipped:{weapon:null,head:null,chest:null,arms:null,waist:null,legs:null,charm:null},studyByDate:{},daily:{date:'',items:[]},streak:{current:0,best:0,lastDate:null},player:{hp:100,maxHp:100,lastRestDate:null},settings:{weeklyGoal:600}}}
+function blankState(){return {schemaVersion:62,xp:0,level:1,quests:[],log:[],totalDone:0,bosses:[],activeBossId:null,bestiary:[],achievements:[],reviewQueue:[],inventory:{},craftedGear:[],equipped:{weapon:null,head:null,chest:null,arms:null,waist:null,legs:null,charm:null},studyByDate:{},daily:{date:'',items:[]},streak:{current:0,best:0,lastDate:null},player:{hp:100,maxHp:100,lastRestDate:null},settings:{weeklyGoal:600,starterGranted:false}}}
 function dateKey(d=new Date()){return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`}
 function addDaysKey(base,days){const [y,m,d]=base.split('-').map(Number);const x=new Date(y,m-1,d+days);return dateKey(x)}
 function parseDateKey(k){const [y,m,d]=k.split('-').map(Number);return new Date(y,m-1,d)}
@@ -67,4 +59,8 @@ async function load(){
   ensureDaily();checkReviews();checkDeadlines();checkAchievements();render();await save();
   if(hitKey && hitKey!==STORAGE_KEY && hitKey!==STORAGE_KEY_VERSIONED) toast('前のセーブデータをそのまま引き継いだ');
 }
-function migrate(s, sourceKey=''){const b=Object.assign(blankState(),s||{});b.schemaVersion=6;b.studyByDate=b.studyByDate||{};b.streak=Object.assign({current:0,best:0,lastDate:null},b.streak||{});b.player=Object.assign({hp:100,maxHp:100,lastRestDate:null},b.player||{});b.player.maxHp=Math.max(50,Number(b.player.maxHp)||100);b.player.hp=Math.min(b.player.maxHp,Math.max(0,Number(b.player.hp)||b.player.maxHp));b.daily=b.daily||{date:'',items:[]};b.reviewQueue=b.reviewQueue||b.respawnQueue||[];b.inventory=b.inventory||{};b.craftedGear=[...new Set(b.craftedGear||[])];b.equipped=Object.assign(blankState().equipped
+function migrate(s, sourceKey=''){const b=Object.assign(blankState(),s||{});b.schemaVersion=62;b.studyByDate=b.studyByDate||{};b.streak=Object.assign({current:0,best:0,lastDate:null},b.streak||{});b.player=Object.assign({hp:100,maxHp:100,lastRestDate:null},b.player||{});b.player.maxHp=Math.max(50,Number(b.player.maxHp)||100);b.player.hp=Math.min(b.player.maxHp,Math.max(0,Number(b.player.hp)||b.player.maxHp));b.daily=b.daily||{date:'',items:[]};b.reviewQueue=b.reviewQueue||b.respawnQueue||[];b.inventory=b.inventory||{};b.settings=Object.assign({weeklyGoal:600,starterGranted:false},b.settings||{});if(!b.settings.starterGranted){b.inventory.small_fang=(b.inventory.small_fang||0)+8;b.inventory.medium_pelt=(b.inventory.medium_pelt||0)+2;b.settings.starterGranted=true;b.log=(b.log||[]);b.log.push({name:'ギルド支給品：小型の牙×8・中型の毛皮×2',date:Date.now(),type:'system'})}b.craftedGear=[...new Set(b.craftedGear||[])];b.equipped=Object.assign(blankState().equipped,b.equipped||{});if(b.equipped.armor&&!b.equipped.chest)b.equipped.chest=b.equipped.armor;b.equipped.armor=undefined;
+  if(b.craftedGear.includes('arm_medium')&&!b.craftedGear.includes('chest_wolf'))b.craftedGear.push('chest_wolf');
+  if(b.craftedGear.includes('arm_ancient')&&!b.craftedGear.includes('chest_dragon'))b.craftedGear.push('chest_dragon');
+  if(b.equipped.chest==='arm_medium')b.equipped.chest='chest_wolf'; if(b.equipped.chest==='arm_ancient')b.equipped.chest='chest_dragon';
+  b.quests=(b.quests||[]).map(q=>({...q,minutes:Math.max(1,Number(q.minutes)||30),diffKey:q.diffKey||'normal',xp:Number(q.xp)||DIFF[q.diffKe
