@@ -11,12 +11,29 @@ function gearById(id){return GEAR.find(g=>g.id===id)}
 function escapeHtml(v){const d=document.createElement('div');d.textContent=String(v??'');return d.innerHTML}
 async function storageGet(key){try{if(window.storage?.get){const r=await window.storage.get(key,false);return r?.value||null}}catch(e){}try{return localStorage.getItem(key)}catch(e){return null}}
 async function storageSet(key,val){try{if(window.storage?.set){await window.storage.set(key,val,false);return}}catch(e){}try{localStorage.setItem(key,val)}catch(e){}}
+function saveScore(s){
+  try{
+    const study=Object.values(s.studyByDate||{}).reduce((a,b)=>a+(Number(b)||0),0);
+    return (Number(s.totalDone)||0)*1000+(Number(s.level)||1)*200+(Number(s.xp)||0)+study*3+(Array.isArray(s.log)?s.log.length:0)*5+(Array.isArray(s.craftedGear)?s.craftedGear.length:0)*250+(Array.isArray(s.bestiary)?s.bestiary.length:0)*400+(Array.isArray(s.achievements)?s.achievements.length:0)*200+(Array.isArray(s.quests)?s.quests.length:0)*80+(Array.isArray(s.bosses)?s.bosses.length:0)*120;
+  }catch(e){return 0}
+}
 async function load(){
-  let raw=null, hitKey=null;
-  for(const key of [STORAGE_KEY, STORAGE_KEY_VERSIONED, ...LEGACY_KEYS]){ raw=await storageGet(key); if(raw){ hitKey=key; break; } }
-  if(raw){ try{ state=migrate(JSON.parse(raw), hitKey) }catch(e){ state=blankState() } }
+  const keys=[...new Set([STORAGE_KEY, STORAGE_KEY_VERSIONED, ...LEGACY_KEYS])];
+  const candidates=[];
+  for(const key of keys){
+    const raw=await storageGet(key);
+    if(!raw)continue;
+    try{const parsed=JSON.parse(raw);const migrated=migrate(parsed,key);candidates.push({key,state:migrated,score:saveScore(migrated)})}catch(e){console.warn('save migration skipped',key,e)}
+  }
+  let picked=null;
+  if(candidates.length){
+    const canonical=candidates.find(x=>x.key===STORAGE_KEY);
+    const richest=[...candidates].sort((a,b)=>b.score-a.score)[0];
+    picked=canonical&&canonical.score>=richest.score*.9?canonical:richest;
+    state=picked.state;
+  }else state=blankState();
   ensureDaily();checkReviews();checkDeadlines();checkAchievements();render();await save();
-  if(hitKey && hitKey!==STORAGE_KEY && hitKey!==STORAGE_KEY_VERSIONED) toast('前のセーブデータをそのまま引き継いだ');
+  if(picked&&picked.key!==STORAGE_KEY)toast('一番進んでいる以前のセーブデータを復元した');
 }
 function migrate(s, sourceKey=''){
   const base=blankState();
