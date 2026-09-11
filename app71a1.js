@@ -1,0 +1,75 @@
+const STORAGE_KEY='quest-study-state';
+const STORAGE_KEY_VERSIONED='quest-study-state-v6-6';
+const LEGACY_KEYS=['quest-study-state-v6-5','quest-study-state-v6-2','quest-study-state-v5','quest-study-state-v4','quest-study-state-v3','quest-study-state'];
+const DAY=86400000;
+const DIFF={easy:{label:'易',xp:10},normal:{label:'普通',xp:25},hard:{label:'難',xp:50},epic:{label:'大型',xp:100}};
+const TIERS={small:{label:'小型',icon:'🐾',color:'#47634a'},medium:{label:'中型',icon:'🐺',color:'#9b4b2d'},large:{label:'大型',icon:'☠',color:'#8e2924'},ancient:{label:'古龍級',icon:'🐉',color:'#a17a2e'}};
+const MATS={small_fang:'小型の牙',medium_pelt:'中型の毛皮',large_horn:'大型の角',ancient_scale:'古龍の鱗',shiny_ore:'光る鉱石'};
+const ELEMENTS={none:{label:'無',icon:'◇',class:'elem-none'},fire:{label:'火',icon:'🔥',class:'elem-fire'},water:{label:'水',icon:'💧',class:'elem-water'},thunder:{label:'雷',icon:'⚡',class:'elem-thunder'},ice:{label:'氷',icon:'❄️',class:'elem-ice'},dragon:{label:'龍',icon:'🐉',class:'elem-dragon'}};
+const REVIEW_DAYS=[1,3,7,14,30];
+const RANKS=[{n:1,t:'下位ハンター'},{n:3,t:'中位ハンター'},{n:6,t:'上位ハンター'},{n:10,t:'熟練ハンター'},{n:15,t:'討伐者'},{n:20,t:'伝説の狩人'}];
+const GEAR=[
+{id:'wep_small',name:'骨の小刀',slot:'weapon',icon:'🗡️',rarity:1,set:'bone',element:'none',power:1.00,cost:{small_fang:1},skills:{xp:0.02}},
+{id:'wep_bone_gs',name:'骨塊の大剣',slot:'weapon',icon:'⚔️',rarity:2,set:'bone',element:'none',power:1.08,cost:{small_fang:4},skills:{hardXp:0.04}},
+{id:'wep_fire_gs',name:'焔哭の大剣',slot:'weapon',icon:'🔥',rarity:4,set:'blaze',element:'fire',power:1.12,cost:{large_horn:3,shiny_ore:1},skills:{hardXp:0.08}},
+{id:'wep_water_blade',name:'蒼潮の太刀',slot:'weapon',icon:'🌊',rarity:3,set:'tide',element:'water',power:1.08,cost:{medium_pelt:5,shiny_ore:1},skills:{xp:0.05}},
+{id:'wep_thunder_lance',name:'雷鳴の穿槍',slot:'weapon',icon:'⚡',rarity:4,set:'storm',element:'thunder',power:1.10,cost:{large_horn:4,shiny_ore:1},skills:{material:0.06}},
+{id:'wep_ice_blade',name:'凍天の氷刃',slot:'weapon',icon:'❄️',rarity:4,set:'frost',element:'ice',power:1.10,cost:{large_horn:3,medium_pelt:3},skills:{xp:0.04,hardXp:0.05}},
+{id:'wep_dragon_gs',name:'滅龍の黒大剣',slot:'weapon',icon:'🐉',rarity:5,set:'dragon',element:'dragon',power:1.18,cost:{ancient_scale:5,shiny_ore:2},skills:{xp:0.08,hardXp:0.08}},
+{id:'wep_wolf_dual',name:'黒狼の双牙',slot:'weapon',icon:'🗡️',rarity:3,set:'wolf',element:'none',power:1.07,cost:{medium_pelt:5,small_fang:4},skills:{material:0.08}},
+{id:'wep_hammer',name:'獣角の戦槌',slot:'weapon',icon:'🔨',rarity:3,set:'horn',element:'none',power:1.12,cost:{large_horn:5},skills:{hardXp:0.07}},
+{id:'wep_bow',name:'星穿ちの弓',slot:'weapon',icon:'🏹',rarity:4,set:'star',element:'none',power:1.09,cost:{shiny_ore:2,medium_pelt:4},skills:{xp:0.07}},
+{id:'wep_ancient',name:'竜鱗の大剣',slot:'weapon',icon:'⚔️',rarity:5,set:'dragon',element:'dragon',power:1.15,cost:{ancient_scale:4},skills:{xp:0.1,hardXp:0.1}},
+{id:'head_bone',name:'骨鎧の兜',slot:'head',icon:'🪖',rarity:1,set:'bone',defense:6,cost:{small_fang:1},skills:{xp:0.01}},
+{id:'chest_bone',name:'骨鎧の胸当て',slot:'chest',icon:'🛡️',rarity:1,set:'bone',defense:10,cost:{small_fang:2},skills:{}},
+{id:'arms_bone',name:'骨鎧の篭手',slot:'arms',icon:'🥊',rarity:1,set:'bone',defense:5,cost:{small_fang:1},skills:{}},
+{id:'waist_bone',name:'骨鎧の腰帯',slot:'waist',icon:'🧷',rarity:1,set:'bone',defense:5,cost:{small_fang:1},skills:{}},
+{id:'legs_bone',name:'骨鎧の脚甲',slot:'legs',icon:'🥾',rarity:1,set:'bone',defense:6,cost:{small_fang:2},skills:{}},
+{id:'head_wolf',name:'黒狼の兜',slot:'head',icon:'🐺',rarity:2,set:'wolf',defense:9,cost:{medium_pelt:3},skills:{xp:0.02}},
+{id:'chest_wolf',name:'黒狼の鎧',slot:'chest',icon:'🛡️',rarity:2,set:'wolf',defense:14,cost:{medium_pelt:5},skills:{material:0.08}},
+{id:'arms_wolf',name:'黒狼の篭手',slot:'arms',icon:'🥊',rarity:2,set:'wolf',defense:8,cost:{medium_pelt:3},skills:{hardXp:0.05}},
+{id:'waist_wolf',name:'黒狼の腰鎧',slot:'waist',icon:'🧷',rarity:2,set:'wolf',defense:8,cost:{medium_pelt:3},skills:{xp:0.02}},
+{id:'legs_wolf',name:'黒狼の脚甲',slot:'legs',icon:'🥾',rarity:2,set:'wolf',defense:9,cost:{medium_pelt:4},skills:{material:0.05}},
+{id:'head_blaze',name:'緋炎の兜',slot:'head',icon:'🔥',rarity:4,set:'blaze',defense:13,cost:{large_horn:2,shiny_ore:1},skills:{hardXp:0.04}},
+{id:'chest_blaze',name:'緋炎の胸鎧',slot:'chest',icon:'🛡️',rarity:4,set:'blaze',defense:20,cost:{large_horn:4,shiny_ore:1},skills:{xp:0.04}},
+{id:'arms_blaze',name:'緋炎の腕甲',slot:'arms',icon:'🥊',rarity:4,set:'blaze',defense:12,cost:{large_horn:3},skills:{hardXp:0.04}},
+{id:'waist_blaze',name:'緋炎の腰鎧',slot:'waist',icon:'🧷',rarity:4,set:'blaze',defense:12,cost:{large_horn:3},skills:{material:0.04}},
+{id:'legs_blaze',name:'緋炎の脚甲',slot:'legs',icon:'🥾',rarity:4,set:'blaze',defense:13,cost:{large_horn:3,shiny_ore:1},skills:{xp:0.03}},
+{id:'head_frost',name:'氷狼の兜',slot:'head',icon:'❄️',rarity:4,set:'frost',defense:14,cost:{medium_pelt:4,large_horn:1},skills:{xp:0.03}},
+{id:'chest_frost',name:'氷狼の胸鎧',slot:'chest',icon:'🛡️',rarity:4,set:'frost',defense:21,cost:{medium_pelt:6,large_horn:2},skills:{material:0.05}},
+{id:'arms_frost',name:'氷狼の篭手',slot:'arms',icon:'🥊',rarity:4,set:'frost',defense:13,cost:{medium_pelt:4,large_horn:1},skills:{hardXp:0.04}},
+{id:'waist_frost',name:'氷狼の腰鎧',slot:'waist',icon:'🧷',rarity:4,set:'frost',defense:12,cost:{medium_pelt:4,shiny_ore:1},skills:{xp:0.03}},
+{id:'legs_frost',name:'氷狼の脚甲',slot:'legs',icon:'🥾',rarity:4,set:'frost',defense:14,cost:{medium_pelt:5,large_horn:1},skills:{material:0.04}},
+{id:'head_storm',name:'雷帝の兜',slot:'head',icon:'⚡',rarity:4,set:'storm',defense:14,cost:{large_horn:3,shiny_ore:1},skills:{xp:0.03}},
+{id:'chest_storm',name:'雷帝の胸鎧',slot:'chest',icon:'🛡️',rarity:4,set:'storm',defense:22,cost:{large_horn:5,shiny_ore:1},skills:{hardXp:0.05}},
+{id:'arms_storm',name:'雷帝の腕甲',slot:'arms',icon:'🥊',rarity:4,set:'storm',defense:13,cost:{large_horn:3,shiny_ore:1},skills:{material:0.04}},
+{id:'waist_storm',name:'雷帝の腰鎧',slot:'waist',icon:'🧷',rarity:4,set:'storm',defense:13,cost:{large_horn:3},skills:{xp:0.03}},
+{id:'legs_storm',name:'雷帝の脚甲',slot:'legs',icon:'🥾',rarity:4,set:'storm',defense:14,cost:{large_horn:4},skills:{hardXp:0.04}},
+{id:'head_dragon',name:'古龍の角冠',slot:'head',icon:'👑',rarity:5,set:'dragon',defense:17,cost:{ancient_scale:3,shiny_ore:1},skills:{xp:0.05}},
+{id:'chest_dragon',name:'古龍の胸鎧',slot:'chest',icon:'🛡️',rarity:5,set:'dragon',defense:28,cost:{ancient_scale:6},skills:{xp:0.05}},
+{id:'arms_dragon',name:'古龍の篭手',slot:'arms',icon:'🥊',rarity:5,set:'dragon',defense:16,cost:{ancient_scale:4},skills:{hardXp:0.08}},
+{id:'waist_dragon',name:'古龍の腰鎧',slot:'waist',icon:'🧷',rarity:5,set:'dragon',defense:16,cost:{ancient_scale:4},skills:{material:0.1}},
+{id:'legs_dragon',name:'古龍の脚甲',slot:'legs',icon:'🥾',rarity:5,set:'dragon',defense:17,cost:{ancient_scale:5},skills:{xp:0.05}},
+{id:'charm_focus',name:'集中の護石',slot:'charm',icon:'💎',rarity:3,set:'none',defense:0,cost:{shiny_ore:2,large_horn:2},skills:{xp:0.05}},
+{id:'charm_guard',name:'守護の護石',slot:'charm',icon:'🧿',rarity:3,set:'none',defense:12,cost:{large_horn:3,shiny_ore:1},skills:{}},
+{id:'charm_hunter',name:'狩人の護石',slot:'charm',icon:'🔶',rarity:4,set:'none',defense:4,cost:{ancient_scale:2,medium_pelt:3},skills:{hardXp:0.08}},
+{id:'charm_rare',name:'輝石のお守り',slot:'charm',icon:'🔮',rarity:5,set:'none',defense:5,cost:{shiny_ore:3},skills:{material:0.15}},
+{id:'wep_abyss_reaper',name:'深淵喰らいの魔断剣',slot:'weapon',icon:'🩸',rarity:5,set:'abyss',element:'dragon',power:1.24,cost:{ancient_scale:6,shiny_ore:2},skills:{xp:0.08,hardXp:0.12}},
+{id:'wep_astral_blade',name:'天煌星の聖邪剣',slot:'weapon',icon:'✨',rarity:5,set:'astral',element:'thunder',power:1.22,cost:{ancient_scale:4,shiny_ore:4},skills:{xp:0.12,material:0.06}},
+{id:'wep_crimson_burst',name:'紅蓮爆哭ブレイカー',slot:'weapon',icon:'💥',rarity:5,set:'blaze',element:'fire',power:1.2,cost:{large_horn:5,shiny_ore:3},skills:{hardXp:0.12}},
+{id:'wep_frost_veil',name:'氷晶月影の太刀',slot:'weapon',icon:'🌙',rarity:5,set:'frost',element:'ice',power:1.18,cost:{medium_pelt:6,ancient_scale:2},skills:{xp:0.08,hardXp:0.08}},
+{id:'wep_storm_howl',name:'迅雷冥皇ランス',slot:'weapon',icon:'🌩️',rarity:5,set:'storm',element:'thunder',power:1.2,cost:{large_horn:5,ancient_scale:2},skills:{material:0.1}},
+{id:'head_abyss',name:'深淵王の兜',slot:'head',icon:'👹',rarity:5,set:'abyss',defense:18,cost:{ancient_scale:3,shiny_ore:1},skills:{hardXp:0.05}},
+{id:'chest_abyss',name:'深淵王の胸鎧',slot:'chest',icon:'🛡️',rarity:5,set:'abyss',defense:29,cost:{ancient_scale:6,shiny_ore:1},skills:{xp:0.05}},
+{id:'arms_abyss',name:'深淵王の呪腕',slot:'arms',icon:'🩶',rarity:5,set:'abyss',defense:17,cost:{ancient_scale:4},skills:{hardXp:0.07}},
+{id:'waist_abyss',name:'深淵王の魔腰',slot:'waist',icon:'⛓️',rarity:5,set:'abyss',defense:17,cost:{ancient_scale:4,shiny_ore:1},skills:{material:0.08}},
+{id:'legs_abyss',name:'深淵王の脚鎧',slot:'legs',icon:'🥾',rarity:5,set:'abyss',defense:18,cost:{ancient_scale:5},skills:{xp:0.04}},
+{id:'head_astral',name:'天煌星の王冠',slot:'head',icon:'👑',rarity:5,set:'astral',defense:16,cost:{shiny_ore:3,ancient_scale:2},skills:{xp:0.06}},
+{id:'chest_astral',name:'天煌星の外套',slot:'chest',icon:'🌠',rarity:5,set:'astral',defense:27,cost:{shiny_ore:5,ancient_scale:3},skills:{xp:0.05,material:0.05}},
+{id:'arms_astral',name:'天煌星の腕甲',slot:'arms',icon:'✨',rarity:5,set:'astral',defense:15,cost:{shiny_ore:3,large_horn:2},skills:{hardXp:0.05}},
+{id:'waist_astral',name:'天煌星の腰飾',slot:'waist',icon:'💫',rarity:5,set:'astral',defense:15,cost:{shiny_ore:3,medium_pelt:3},skills:{xp:0.04}},
+{id:'legs_astral',name:'天煌星の脚甲',slot:'legs',icon:'🌌',rarity:5,set:'astral',defense:16,cost:{shiny_ore:4,ancient_scale:2},skills:{material:0.06}},
+{id:'charm_abyss',name:'深淵の護石',slot:'charm',icon:'🖤',rarity:5,set:'abyss',defense:6,cost:{ancient_scale:2,shiny_ore:2},skills:{hardXp:0.12}},
+{id:'charm_astral',name:'星界の護石',slot:'charm',icon:'💠',rarity:5,set:'astral',defense:5,cost:{shiny_ore:4,ancient_scale:1},skills:{xp:0.1,material:0.08}}
+];
+const SLOTS=[['weapon','武器'],['head','頭'],['chest','胴'],['arms','腕'],['waist','腰'],['legs','脚'],['charm','お守り']];
