@@ -3,21 +3,40 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>ハンターズギルド Study RPG v6.3</title>
+<title>ハンターズギルド Study RPG v6.4</title>
 <style>body{margin:0;background:#100d0b;color:#eee1c8;font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Yu Gothic",Meiryo,sans-serif;display:grid;place-items:center;min-height:100vh}#loading{padding:24px;text-align:center;font-weight:800}</style>
 </head>
 <body>
-<div id="loading">ハンターズギルド v6.3 を読み込み中…</div>
+<div id="loading">ハンターズギルド v6.4 を読み込み中…</div>
 <script>
 (async()=>{
   try{
-    const urls=Array.from({length:9},(_,i)=>`chunks/part${String(i).padStart(2,'0')}.txt?v=63`);
+    const urls=Array.from({length:9},(_,i)=>`chunks/part${String(i).padStart(2,'0')}.txt?v=64`);
     const parts=await Promise.all(urls.map(u=>fetch(u,{cache:'no-store'}).then(r=>{if(!r.ok)throw new Error(u);return r.text()})));
     let html=parts.join('');
-    const rescue=decodeURIComponent(escape(atob('Ci8vIHY2LjMgZ2VhciByZW5kZXJpbmcgcmVzY3VlCmZ1bmN0aW9uIF9fZ2VhckFycigpe2lmKCFBcnJheS5pc0FycmF5KHN0YXRlLmNyYWZ0ZWRHZWFyKSlzdGF0ZS5jcmFmdGVkR2Vhcj1bXTtyZXR1cm4gc3RhdGUuY3JhZnRlZEdlYXJ9CmZ1bmN0aW9uIF9fZ2VhckVxKCl7aWYoIXN0YXRlLmVxdWlwcGVkfHx0eXBlb2Ygc3RhdGUuZXF1aXBwZWQhPT0nb2JqZWN0JylzdGF0ZS5lcXVpcHBlZD17d2VhcG9uOm51bGwsaGVhZDpudWxsLGNoZXN0Om51bGwsYXJtczpudWxsLHdhaXN0Om51bGwsbGVnczpudWxsLGNoYXJtOm51bGx9O3JldHVybiBzdGF0ZS5lcXVpcHBlZH0KcmVuZGVyR2VhclRhYnM9ZnVuY3Rpb24oKXtjb25zdCBhcmVhPWRvY3VtZW50LmdldEVsZW1lbnRCeUlkKCdnZWFyVGFicycpO2lmKCFhcmVhKXJldHVybjthcmVhLmlubmVySFRNTD0nJztbWyd3ZWFwb24nLCfmrablmagnXSxbJ2hlYWQnLCfpoK0nXSxbJ2NoZXN0Jywn6IO0J10sWydhcm1zJywn6IWVJ10sWyd3YWlzdCcsJ+iFsCddLFsnbGVncycsJ+iEmiddLFsnY2hhcm0nLCforbfnn7MnXV0uZm9yRWFjaCgoW2ssbF0pPT57Y29uc3QgYj1kb2N1bWVudC5jcmVhdGVFbGVtZW50KCdidXR0b24nKTtiLnR5cGU9J2J1dHRvbic7Yi5jbGFzc05hbWU9J2J0biBnZWFyLXRhYiAnKyhnZWFyU2xvdD09PWs/J2dvbGQnOicnKTtiLmRhdGFzZXQuZ2VhclRhYj1rO2IudGV4dENvbnRlbnQ9bDthcmVhLmFwcGVuZENoaWxkKGIpfSl9OwpyZW5kZXJHZWFyR3JpZD1mdW5jdGlvbigpe2NvbnN0IGFyZWE9ZG9jdW1lbnQuZ2V0RWxlbWVudEJ5SWQoJ2dlYXJHcmlkJyk7aWYoIWFyZWEpcmV0dXJuO2FyZWEuaW5uZXJIVE1MPScnO2NvbnN0IGNyYWZ0ZWQ9X19nZWFyQXJyKCksZXFkPV9fZ2VhckVxKCksbGlzdD0oQXJyYXkuaXNBcnJheShHRUFSKT9HRUFSOltdKS5maWx0ZXIoZz0+ZyYmZy5zbG90PT09Z2VhclNsb3QpO2lmKCFsaXN0Lmxlbmd0aCl7YXJlYS5pbm5lckhUTUw9JzxkaXYgY2xhc3M9ImNhcmQgYWRkYm94IiBzdHlsZT0iZ3JpZC1jb2x1bW46MS8tMSI+44GT44Gu6YOo5L2N44Gu6KOF5YKZ44Gv44G+44Gg44GC44KK44G+44Gb44KT44CCPC9kaXY+JztyZXR1cm59aWYoIXNlbGVjdGVkR2Vhcnx8IWxpc3Quc29tZShnPT5nLmlkPT09c2VsZWN0ZWRHZWFyKSlzZWxlY3RlZEdlYXI9ZXFkW2dlYXJTbG90XXx8bGlzdFswXS5pZDtmb3IoY29uc3QgZyBvZiBsaXN0KXt0cnl7Y29uc3QgcmFyaXR5PU1hdGgubWF4KDEsTWF0aC5taW4oNSxOdW1iZXIoZy5yYXJpdHkpfHwxKSksbWFkZT1jcmFmdGVkLmluY2x1ZGVzKGcuaWQpLGVxPWVxZFtnLnNsb3RdPT09Zy5pZCxiPWRvY3VtZW50LmNyZWF0ZUVsZW1lbnQoJ2J1dHRvbicpO2IudHlwZT0nYnV0dG9uJztiLmNsYXNzTmFtZT0nZ2Vhci1pdGVtIHInK3Jhcml0eSsnICcrKHNlbGVjdGVkR2Vhcj09PWcuaWQ/J3NlbGVjdGVkICc6JycpKyhtYWRlPycnOidsb2NrZWQgJykrKHJhcml0eT49NT8nbGVnZW5kYXJ5JzonJyk7Yi5kYXRhc2V0LmdlYXI9Zy5pZDtjb25zdCBlbD1nLnNsb3Q9PT0nd2VhcG9uJz9lbGVtZW50SW5mbyhnLmVsZW1lbnR8fCdub25lJyk6bnVsbDtiLmlubmVySFRNTD0nPGRpdiBjbGFzcz0iZ2ljb24iPicrKGcuaWNvbnx8J+KalO+4jycpKyc8L2Rpdj48Yj4nK2VzY2FwZUh0bWwoZy5uYW1lfHwn5ZCN56ew5pyq6Kit5a6aJykrJzwvYj48ZGl2IGNsYXNzPSJnbWV0YSI+PHNwYW4gY2xhc3M9InRpbnktYmFkZ2UgcmFyZSI+Jysn4piFJy5yZXBlYXQocmFyaXR5KSsnPC9zcGFuPjxzcGFuIGNsYXNzPSJ0aW55LWJhZGdlIHNldCI+JytzZXRMYWJlbChnLnNldCkrJzwvc3Bhbj4nKyhlbD8nPHNwYW4gY2xhc3M9InRpbnktYmFkZ2UgcG93ZXIgJysoZWwuY2xhc3N8fCcnKSsnIj4nKyhlbC5pY29ufHwnJykrJyAnKyhlbC5sYWJlbHx8JycpKyc8L3NwYW4+JzonPHNwYW4gY2xhc3M9InRpbnktYmFkZ2UgcG93ZXIiPumYsuW+oSAnKyhOdW1iZXIoZy5kZWZlbnNlKXx8MCkrJzwvc3Bhbj4nKSsnPC9kaXY+PHNtYWxsPicrKGVxPyfoo4XlgpnkuK0nOm1hZGU/J+S9nOaIkOa4iOOBvyc6J+acquS9nOaIkCcpKyc8L3NtYWxsPic7YXJlYS5hcHBlbmRDaGlsZChiKX1jYXRjaChlKXtjb25zb2xlLmVycm9yKCdnZWFyIGNhcmQnLGUpfX1pZighYXJlYS5jaGlsZHJlbi5sZW5ndGgpYXJlYS5pbm5lckhUTUw9JzxkaXYgY2xhc3M9ImNhcmQgYWRkYm94IiBzdHlsZT0iZ3JpZC1jb2x1bW46MS8tMSI+6KOF5YKZ44KS6KGo56S644Gn44GN44G+44Gb44KT44Gn44GX44Gf44CCPC9kaXY+J307CnJlbmRlckdlYXJEZXRhaWw9ZnVuY3Rpb24oKXtjb25zdCBhcmVhPWRvY3VtZW50LmdldEVsZW1lbnRCeUlkKCdnZWFyRGV0YWlsJyk7aWYoIWFyZWEpcmV0dXJuO2NvbnN0IGc9Z2VhckJ5SWQoc2VsZWN0ZWRHZWFyKTtpZighZyl7YXJlYS5pbm5lckhUTUw9JzxkaXYgY2xhc3M9Im11dGVkIj7oo4XlgpnjgpLpgbjmip7jgZfjgabjgY/jgaDjgZXjgYTjgII8L2Rpdj4nO3JldHVybn10cnl7Y29uc3QgY3JhZnRlZD1fX2dlYXJBcnIoKSxlcWQ9X19nZWFyRXEoKSxtYWRlPWNyYWZ0ZWQuaW5jbHVkZXMoZy5pZCksZXE9ZXFkW2cuc2xvdF09PT1nLmlkLGNvc3RPYmo9KGcuY29zdCYmdHlwZW9mIGcuY29zdD09PSdvYmplY3QnKT9nLmNvc3Q6e30sc2tpbGxzT2JqPShnLnNraWxscyYmdHlwZW9mIGcu c2tpbGxzPT09J29iamVjdCcpP2cuc2tpbGxzOnt9LGNvc3Q9T2JqZWN0LmVudHJpZXMoY29zdE9iaikubWFwKChbbSxuXSk9PihNQVRTW21dfHxtKSsnICcrKE51bWJlcihzdGF0ZS5pbnZlbnRvcnkmJnN0YXRlLmludmVudG9yeVttXSl8fDApKycvJysoTnVtYmVyKG4pfHwwKSkuam9pbignIOODuyAnKXx8J+OBquOBlycscmFyaXR5PU1hdGgubWF4KDEsTWF0aC5taW4oNSxOdW1iZXIoZy5yYXJpdHkpfHwxKSksZWw9Zy5zbG90PT09J3dlYXBvbic/ZWxlbWVudEluZm8oZy5lbGVtZW50fHwnbm9uZScpOm51bGwsc2tpbGw9T2JqZWN0LmVudHJpZXMoc2tpbGxzT2JqKS5tYXAoKFtrLHZdKT0+KGs9PT0neHAnPyfnjbLlvpdYUCc6az09PSdoYXJkWHAnPyfpq5jpm6PluqZYUCc6az09PSdtYXRlcmlhbCc/J+e0oOadkOeOhyc6aykrJyArJytNYXRoLnJvdW5kKChOdW1iZXIodil8fDApKjEwMCkrJyUnKS5qb2luKCcgLyAnKTthcmVhLmlubmVySFRNTD0nPGRpdiBjbGFzcz0iZGV0YWlsLWhlYWQiPjxkaXYgY2xhc3M9ImRldGFpbC1pY29uIj4nKyhnLmljb258fCfimpTvuI8nKSsnPC9kaXY+PGRpdj48ZGl2IGNsYXNzPSJkZXRhaWwtbmFtZSI+Jytlc2NhcGVIdG1sKGcubmFtZXx8J+WQjeensOacquioreWumicpKyc8L2Rpdj48ZGl2IGNsYXNzPSJzdGFycyI+Jysn4piFJy5yZXBlYXQocmFyaXR5KSsn4piGJy5yZXBlYXQoNS1yYXJpdHkpKycg44O7ICcrc2V0TGFiZWwoZy5zZXQpKyc8L2Rpdj4nKyhlbD8nPGRpdj48c3BhbiBjbGFzcz0iZWxlbS1iYWRnZSAnK2VsLmNsYXNzKyciPicrZWwuaWNvbisnICcrZWwubGFiZWwrJ+WxnuaApzwvc3Bhbj4g5pS75pKD5YCN546HIMOXJysoTnVtYmVyKGcucG93ZXIpfHwxKS50b0ZpeGVkKDIpKyc8L2Rpdj4nOic8ZGl2PumYsuW+oeWKmyAnKyhOdW1iZXIoZy5kZWZlbnNlKXx8MCkrJzwvZGl2PicpKyc8ZGl2IGNsYXNzPSJza2lsbHMiPicrKHNraWxsfHwn5Zu65pyJ44K544Kt44Or44Gq44GXJykrJzwvZGl2PjwvZGl2PjwvZGl2PjxkaXYgY2xhc3M9ImNvc3RzIj7lv4XopoHntKDmnZDvvJonK2Nvc3QrJzwvZGl2PjxkaXYgY2xhc3M9ImRldGFpbC1hY3Rpb25zIj48YnV0dG9uIGNsYXNzPSJidG4gZ29sZCIgaWQ9ImNyYWZ0R2VhciIgJysobWFkZXx8IWNhbkNyYWZ0KGcpPydkaXNhYmxlZCc6JycpKyc+JysobWFkZT8n5L2c5oiQ5riI44G/JzpjYW5DcmFmdChnKT8n5L2c5oiQ44GZ44KLJzon57Sg5p2Q5LiN6LazJykrJzwvYnV0dG9uPjxidXR0b24gY2xhc3M9ImJ0biBwcmltYXJ5IiBpZD0iZXF1aXBHZWFyIiAnKyhtYWRlPycnOidkaXNhYmxlZCcpKyc+JysoZXE/J+ijheWCmeOCkuWkluOBmSc6J+ijheWCmeOBmeOCiycpKyc8L2J1dHRvbj48L2Rpdj4nfWNhdGNoKGUpe2NvbnNvbGUuZXJyb3IoJ2dlYXIgZGV0YWlsJyxlKTthcmVhLmlubmVySFRNTD0nPGRpdiBjbGFzcz0ibXV0ZWQiPuijheWCmeips+e0sOOBr+ihqOekuuOBp+OBjeOBvuOBm+OCk+OBjOOAgeS4gOimp+OBr+WIqeeUqOOBp+OBjeOBvuOBmeOAgjwvZGl2Pid9fTsKY29uc3QgX19vbGRSZW5kZXJHZWFyPXJlbmRlckdlYXI7CnJlbmRlckdlYXI9ZnVuY3Rpb24oKXt0cnl7cmVuZGVyR2VhclRhYnMoKTtyZW5kZXJHZWFyR3JpZCgpO3JlbmRlckdlYXJEZXRhaWwoKX1jYXRjaChlKXtjb25zb2xlLmVycm9yKCdnZWFyIHJlc2N1ZScsZSl9dHJ5e2FwcGx5VmlzdWFscygpfWNhdGNoKGUpe310cnl7Y29uc3QgbWF0cz1kb2N1bWVudC5nZXRFbGVtZW50QnlJZCgnbWF0ZXJpYWxzJyk7aWYobWF0cyl7bWF0cy5pbm5lckhUTUw9Jyc7T2JqZWN0LmtleXMoTUFUUykuZm9yRWFjaChrPT57Y29uc3QgZD1kb2N1bWVudC5jcmVhdGVFbGVtZW50KCdkaXYnKTtkLmNsYXNzTmFtZT0nbWF0JztkLmlubmVySFRNTD0oTUFUU1trXXx8aykrJyA8Yj7DlycrKE51bWJlcihzdGF0ZS5pbnZlbnRvcnkmJnN0YXRlLmludmVudG9yeVtrXSl8fDApKyc8L2I+JzttYXRzLmFwcGVuZENoaWxkKGQpfSl9fWNhdGNoKGUpe319Owo=')));
-    html=html.replace('load();setInterval',rescue+'\nload();setInterval');
-    document.open();document.write(html);document.close();
-  }catch(e){document.getElementById('loading').textContent='読み込みに失敗しました。ページを再読み込みしてください。';console.error(e)}
+
+    html=html.replace(
+      "function canCraft(g){return Object.entries(g.cost).every(([m,n])=>(state.inventory[m]||0)>=n)}",
+      "function canCraft(g){try{const costs=(g&&g.cost&&typeof g.cost==='object')?g.cost:{};const inv=(state&&state.inventory&&typeof state.inventory==='object')?state.inventory:{};return Object.entries(costs).every(([m,n])=>(Number(inv[m])||0)>=(Number(n)||0))}catch(e){return false}}"
+    );
+
+    html=html.replace(
+      "function craft(g){if(state.craftedGear.includes(g.id)||!canCraft(g))return false;for(const [m,n] of Object.entries(g.cost))state.inventory[m]-=n;state.craftedGear.push(g.id);return true}",
+      "function craft(g){try{if(!g)return false;if(!Array.isArray(state.craftedGear))state.craftedGear=[];if(!state.inventory||typeof state.inventory!=='object')state.inventory={};if(state.craftedGear.includes(g.id)||!canCraft(g))return false;for(const [m,n] of Object.entries((g.cost&&typeof g.cost==='object')?g.cost:{}))state.inventory[m]=Math.max(0,(Number(state.inventory[m])||0)-(Number(n)||0));state.craftedGear.push(g.id);return true}catch(e){console.error('craft error',e);return false}}"
+    );
+
+    html=html.replace(
+      "applyVisuals();renderGearTabs();renderGearGrid();renderGearDetail();",
+      "renderGearTabs();renderGearGrid();renderGearDetail();try{applyVisuals()}catch(e){console.warn('gear preview skipped',e)};"
+    );
+
+    document.open();
+    document.write(html);
+    document.close();
+  }catch(e){
+    document.getElementById('loading').textContent='読み込みに失敗しました。ページを再読み込みしてください。';
+    console.error(e);
+  }
 })();
 </script>
 </body>
