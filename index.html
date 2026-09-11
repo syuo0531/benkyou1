@@ -3,21 +3,20 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>ハンターズギルド Study RPG v5</title>
+<title>ハンターズギルド Study RPG v6</title>
 <style>
 body{margin:0;background:#100d0b;color:#eee1c8;font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Yu Gothic",Meiryo,sans-serif;display:grid;place-items:center;min-height:100vh}
 #loading{padding:24px;text-align:center;font-weight:800}
 </style>
 </head>
 <body>
-<div id="loading">ハンターズギルド v5 を読み込み中…</div>
+<div id="loading">ハンターズギルド v6 を読み込み中…</div>
 <script>
 (async()=>{
   try{
-    const urls=Array.from({length:9},(_,i)=>`chunks/part${String(i).padStart(2,'0')}.txt?v=5`);
+    const urls=Array.from({length:9},(_,i)=>`chunks/part${String(i).padStart(2,'0')}.txt?v=6`);
     const parts=await Promise.all(urls.map(u=>fetch(u,{cache:'no-store'}).then(r=>{if(!r.ok)throw new Error(u);return r.text()})));
-    let html=parts.join('');
-    html=html.replace('min-height::43px','min-height:43px');
+    const html=parts.join('');
     document.open();
     document.write(html);
     document.close();
