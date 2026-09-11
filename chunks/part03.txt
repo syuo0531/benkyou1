@@ -1,10 +1,14 @@
-s"><button class="btn danger" id="deleteQuest">削除</button><button class="btn primary" id="saveQuestEdit">保存</button></div></div></div>
+ords"><b>▥</b>記録</button></nav>
+
+<div class="modal" id="editQuestModal"><div class="modal-card"><div class="modal-head"><b>クエスト編集</b><button class="btn icon-btn" data-close>×</button></div><input type="hidden" id="editQuestId"><div class="field"><label>内容</label><input id="editQuestName"></div><div class="grid2"><div class="field"><label>勉強時間（分）</label><input id="editQuestMinutes" type="number" min="1" max="600"></div><div class="field"><label>難易度</label><select id="editQuestDiff"><option value="easy">易 10XP</option><option value="normal">普通 25XP</option><option value="hard">難 50XP</option><option value="epic">大型 100XP</option></select></div></div><div class="modal-actions"><button class="btn danger" id="deleteQuest">削除</button><button class="btn primary" id="saveQuestEdit">保存</button></div></div></div>
 <div class="modal" id="editBossModal"><div class="modal-card"><div class="modal-head"><b>討伐対象編集</b><button class="btn icon-btn" data-close>×</button></div><input type="hidden" id="editBossId"><div class="field"><label>名前</label><input id="editBossName"></div><div class="grid2"><div class="field"><label>最大HP</label><input id="editBossHp" type="number" min="50" max="99999"></div><div class="field"><label>脅威度</label><select id="editBossTier"><option value="small">小型</option><option value="medium">中型</option><option value="large">大型</option><option value="ancient">古龍級</option></select></div></div><div class="grid2"><div class="field"><label>ボス属性</label><select id="editBossElement"><option value="none">無属性</option><option value="fire">火</option><option value="water">水</option><option value="thunder">雷</option><option value="ice">氷</option><option value="dragon">龍</option></select></div><div class="field"><label>弱点属性</label><select id="editBossWeakness"><option value="none">なし</option><option value="fire">火</option><option value="water">水</option><option value="thunder">雷</option><option value="ice">氷</option><option value="dragon">龍</option></select></div></div><div class="modal-actions"><button class="btn danger" id="deleteBoss">削除</button><button class="btn primary" id="saveBossEdit">保存</button></div></div></div>
 <div class="toast" id="toast"></div>
 
 <script>
 (()=>{
-const STORAGE_KEY='quest-study-state-v4', OLD_KEY='quest-study-state-v3';
+const STORAGE_KEY='quest-study-state';
+const STORAGE_KEY_VERSIONED='quest-study-state-v6';
+const LEGACY_KEYS=['quest-study-state-v5','quest-study-state-v4','quest-study-state-v3','quest-study-state'];
 const DAY=86400000;
 const DIFF={easy:{label:'易',xp:10},normal:{label:'普通',xp:25},hard:{label:'難',xp:50},epic:{label:'大型',xp:100}};
 const TIERS={small:{label:'小型',icon:'🐾',color:'#47634a'},medium:{label:'中型',icon:'🐺',color:'#9b4b2d'},large:{label:'大型',icon:'☠',color:'#8e2924'},ancient:{label:'古龍級',icon:'🐉',color:'#a17a2e'}};
@@ -53,10 +57,4 @@ const GEAR=[
 {id:'chest_storm',name:'雷帝の胸鎧',slot:'chest',icon:'🛡️',rarity:4,set:'storm',defense:22,cost:{large_horn:5,shiny_ore:1},skills:{hardXp:0.05}},
 {id:'arms_storm',name:'雷帝の腕甲',slot:'arms',icon:'🥊',rarity:4,set:'storm',defense:13,cost:{large_horn:3,shiny_ore:1},skills:{material:0.04}},
 {id:'waist_storm',name:'雷帝の腰鎧',slot:'waist',icon:'🧷',rarity:4,set:'storm',defense:13,cost:{large_horn:3},skills:{xp:0.03}},
-{id:'legs_storm',name:'雷帝の脚甲',slot:'legs',icon:'🥾',rarity:4,set:'storm',defense:14,cost:{large_horn:4},skills:{hardXp:0.04}},
-
-{id:'head_dragon',name:'古龍の角冠',slot:'head',icon:'👑',rarity:5,set:'dragon',defense:17,cost:{ancient_scale:3,shiny_ore:1},skills:{xp:0.05}},
-{id:'chest_dragon',name:'古龍の胸鎧',slot:'chest',icon:'🛡️',rarity:5,set:'dragon',defense:28,cost:{ancient_scale:6},skills:{xp:0.05}},
-{id:'arms_dragon',name:'古龍の篭手',slot:'arms',icon:'🥊',rarity:5,set:'dragon',defense:16,cost:{ancient_scale:4},skills:{hardXp:0.08}},
-{id:'waist_dragon',name:'古龍の腰鎧',slot:'waist',icon:'🧷',rarity:5,set:'dragon',defense:16,cost:{ancient_scale:4},skills:{material:0.1}},
-{id:'legs_dragon',name:'古龍の脚甲',slot:'legs',i
+{id:'le
