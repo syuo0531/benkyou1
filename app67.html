@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>ハンターズギルド Study RPG v6.4</title>
+<style>html,body{margin:0;min-height:100%;background:#100d0b;color:#eee1c8;font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Yu Gothic",Meiryo,sans-serif}#boot{min-height:100vh;display:grid;place-items:center;padding:24px;text-align:center;font-weight:800}#bootError{position:fixed;top:8px;left:8px;right:8px;z-index:99999;background:#4b1717;color:#fff;padding:8px 10px;border-radius:8px;font-size:11px;display:none;white-space:pre-wrap}</style>
+</head>
+<body>
+<div id="boot">ハンターズギルド v6.4 を起動中…</div>
+<div id="bootError"></div>
+<script>
+(async()=>{
+  const showErr=(msg)=>{const e=document.getElementById('bootError');if(e){e.style.display='block';e.textContent=String(msg)}};
+  window.addEventListener('error',e=>showErr('JSエラー: '+(e.message||e.error||'不明')));
+  window.addEventListener('unhandledrejection',e=>showErr('処理エラー: '+String(e.reason||'不明')));
+  try{
+    const urls=Array.from({length:9},(_,i)=>`chunks/part${String(i).padStart(2,'0')}.txt?app67=1`);
+    const parts=await Promise.all(urls.map(async u=>{const r=await fetch(u,{cache:'no-store'});if(!r.ok)throw new Error('読み込み失敗: '+u);return r.text()}));
+    const html=parts.join('');
+    const parsed=new DOMParser().parseFromString(html,'text/html');
+    const scripts=[...parsed.querySelectorAll('script')].map(s=>s.textContent||'');
+    parsed.querySelectorAll('script').forEach(s=>s.remove());
+
+    document.title=parsed.title||document.title;
+    document.head.querySelectorAll('style:not(:first-of-type),link').forEach(n=>n.remove());
+    [...parsed.head.querySelectorAll('style,link[rel="stylesheet"]')].forEach(n=>document.head.appendChild(document.importNode(n,true)));
+    document.body.innerHTML='';
+    [...parsed.body.childNodes].forEach(n=>document.body.appendChild(document.importNode(n,true)));
+
+    // 本体JSとは独立した、必ず動くナビゲーション
+    const switchView=(name,btn)=>{
+      document.querySelectorAll('.view').forEach(v=>v.classList.toggle('hidden',v.dataset.view!==name));
+      document.querySelectorAll('#nav button[data-view]').forEach(b=>b.classList.toggle('active',b===btn||b.dataset.view===name));
+      try{window.scrollTo({top:0,behavior:'auto'})}catch(_){window.scrollTo(0,0)}
+    };
+    const nav=document.getElementById('nav');
+    if(nav){nav.addEventListener('click',e=>{const b=e.target.closest('button[data-view]');if(b){e.preventDefault();switchView(b.dataset.view,b)}},true)}
+
+    // v6.4本体JSを通常のscript要素として起動
+    for(const code of scripts){
+      const s=document.createElement('script');
+      s.type='text/javascript';
+      s.text=code;
+      document.body.appendChild(s);
+    }
+  }catch(e){document.body.innerHTML='<div style="padding:24px;max-width:520px;margin:auto"><h2>起動エラー</h2><p>'+String(e.message||e)+'</p></div>'}
+})();
+</script>
+</body>
+</html>
