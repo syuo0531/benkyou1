@@ -1,0 +1,59 @@
+/* v7.9 visual layer only — core app logic untouched */
+:root{
+  --forge-bg:#0a0807; --forge-panel:#15100d; --forge-panel2:#211711;
+  --forge-gold:#d7a647; --forge-gold2:#f4d07a; --forge-line:#5c4328;
+  --forge-text:#f1e2c4; --forge-muted:#b69a72; --forge-red:#9d2f2a;
+}
+html,body{background:
+  radial-gradient(circle at 50% -10%,rgba(137,80,31,.2),transparent 24%),
+  linear-gradient(180deg,#100c09,#090706 46%,#070605)!important;color:var(--forge-text)}
+body:before{content:"";position:fixed;inset:0;pointer-events:none;opacity:.11;background-image:linear-gradient(rgba(255,255,255,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px);background-size:4px 4px}
+.app{max-width:1180px;margin:0 auto}
+.brand{border:1px solid #3f2c1d;background:linear-gradient(180deg,rgba(27,19,14,.95),rgba(13,10,8,.96));box-shadow:inset 0 0 0 1px rgba(255,214,123,.04),0 10px 28px rgba(0,0,0,.28);margin:8px 8px 0;border-radius:8px;padding:12px 14px}
+.brand h1{color:#f0d4a0;letter-spacing:.12em;text-shadow:0 1px 0 #351d0f,0 0 18px rgba(226,176,81,.12)}
+.brand p{color:#a9916f}
+.ornament{height:5px;background:linear-gradient(90deg,transparent,#6b4827,#e1b45b,#6b4827,transparent);opacity:.8}
+.section{margin-top:14px}
+.section-title{color:#edd4a3;font-family:serif;letter-spacing:.08em;border-left:3px solid var(--forge-gold);padding-left:9px;text-shadow:0 1px 0 #21150e}
+.card,.quest,.boss,.review-row,.monster,.achieve,.gear-item,.gear-detail,.mat,.daily{border-color:#604528!important;background:linear-gradient(180deg,rgba(30,22,16,.98),rgba(18,13,10,.98))!important;box-shadow:inset 0 0 0 1px rgba(255,223,154,.025),0 8px 22px rgba(0,0,0,.22)}
+.card:after,.gear-item:after{content:"";position:absolute;inset:3px;pointer-events:none;border:1px solid rgba(236,190,91,.035)}
+.btn{border-color:#6f512e!important;background:linear-gradient(180deg,#3c2a19,#21170f)!important;color:#ead7b4!important;box-shadow:inset 0 1px 0 rgba(255,255,255,.045)}
+.btn.primary,.btn.gold{background:linear-gradient(180deg,#74501f,#4d3215)!important;border-color:#a8792f!important;color:#fff0c2!important}
+.btn.danger{background:linear-gradient(180deg,#6b231d,#40130f)!important;border-color:#8d3d2f!important}
+.btn.green{background:linear-gradient(180deg,#415d37,#283d24)!important;border-color:#5f7953!important}
+.field input,.field select{background:#0f0c0a!important;color:#f0dfc1!important;border-color:#584027!important}
+.rank-badge{background:radial-gradient(circle,#6b4824,#2a1a0e)!important;color:#ffe4a4!important;border-color:#a9792f!important}
+.rank-name,.goal-title,.boss-name,.quest-name,.detail-name{color:#f5dfb2!important}
+.bar,.hpbar,.hp-track{background:#0a0807!important;border-color:#4b3522!important}
+.nav{background:linear-gradient(180deg,rgba(20,15,11,.98),rgba(9,7,6,.99))!important;border-top:1px solid #5f4326!important;box-shadow:0 -8px 24px rgba(0,0,0,.3)}
+.nav button{color:#c6ab80!important}
+.nav button.active{color:#ffda82!important;background:linear-gradient(180deg,rgba(216,167,70,.12),transparent)!important}
+.nav button.active:before{content:"";position:absolute;left:18%;right:18%;top:0;height:2px;background:linear-gradient(90deg,transparent,#f1c766,transparent)}
+.hunter-stage{border-color:#77562e!important;background:radial-gradient(circle at 50% 10%,rgba(198,151,66,.10),transparent 24%),linear-gradient(180deg,#17100d,#0b0908)!important}
+.hunter-scene{background:linear-gradient(180deg,#16100d,#090706)!important}
+.gear-tabs{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px;margin-bottom:10px;position:sticky;top:4px;z-index:5;background:rgba(9,7,6,.92);padding:6px;border:1px solid #3f2c1d;border-radius:7px;backdrop-filter:blur(4px)}
+.gear-tabs button{border:1px solid #5b4228!important;background:#15100c!important;color:#cdb58e!important;min-height:36px}
+.gear-tabs button.active{background:linear-gradient(180deg,#6a471f,#3a2512)!important;color:#ffe1a0!important;border-color:#b07d31!important}
+.gear-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.gear-item{position:relative;overflow:hidden;border-radius:5px!important;padding:6px!important;min-height:142px!important}
+.gear-item .gicon{height:82px!important;border:1px solid #76552f!important;border-radius:4px!important;background:radial-gradient(circle at 50% 34%,rgba(255,214,124,.11),transparent 34%),linear-gradient(180deg,#201611,#0e0b09)!important;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
+.gear-item.selected{border-color:#d19b41!important;box-shadow:0 0 0 1px rgba(225,173,69,.20),0 0 20px rgba(208,144,50,.10)!important}
+.gear-item.r5 .gicon{box-shadow:inset 0 0 0 1px rgba(255,239,188,.08),0 0 18px rgba(155,48,84,.16)}
+.detail-icon{background:radial-gradient(circle at 50% 34%,rgba(255,214,124,.11),transparent 34%),linear-gradient(180deg,#201611,#0e0b09)!important;border:1px solid #76552f!important}
+.weapon-pixel79{image-rendering:pixelated;image-rendering:crisp-edges;filter:drop-shadow(0 2px 0 rgba(0,0,0,.65)) drop-shadow(0 0 6px rgba(255,213,126,.08))}
+.weapon-aura79{position:absolute;right:5px;top:4px;font-size:12px;pointer-events:none;animation:forgeSpark 1.2s ease-in-out infinite;text-shadow:0 0 9px currentColor}
+.weapon-aura79.fire{color:#ff8052}.weapon-aura79.thunder{color:#fff071}.weapon-aura79.ice{color:#9eeaff}.weapon-aura79.dragon{color:#f06ba6}.weapon-aura79.star{color:#ffe6a3}
+@keyframes forgeSpark{0%,100%{opacity:.35;transform:scale(.82)}50%{opacity:1;transform:scale(1.18)}}
+.bestiary-grid{gap:8px}
+.monster,.achieve{border-radius:5px!important}
+.achieve.done{border-color:#9b7438!important;box-shadow:inset 0 0 0 1px rgba(230,181,82,.08)}
+.daily-grid{gap:8px}
+.daily.done{opacity:.72;border-color:#5a6843!important}
+.set-banner{background:linear-gradient(180deg,#281a11,#120d09)!important;border-color:#75542f!important}
+.set-banner b{color:#f2cf79!important}
+.materials{gap:6px}.mat{border-radius:4px!important}
+@media (min-width:700px){
+  .gear-grid{grid-template-columns:repeat(4,minmax(0,1fr))}
+  .gear-tabs{grid-template-columns:repeat(7,minmax(0,1fr))}
+  .daily-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
+}
