@@ -1,4 +1,4 @@
-oast(msg)}
+(res.mult>1)msg+=' 弱点属性！';if(res.mult<1)msg+=' 属性耐性…';if(res.counter?.triggered)msg+=` / 反撃 -${res.counter.damage}HP${res.counter.fainted?'（力尽きた）':''}`;if(res.defeated){const drops=defeatBoss(res.defeated);msg=`討伐成功！ 素材：${drops}`}checkAchievements();render();await save();toast(msg)}
 function openModal(id){document.getElementById(id).classList.add('show')}function closeModal(el){el.closest('.modal')?.classList.remove('show')}
 // navigation
 document.getElementById('nav').addEventListener('click',e=>{const b=e.target.closest('button[data-view]');if(!b)return;document.querySelectorAll('.view').forEach(v=>v.classList.toggle('hidden',v.dataset.view!==b.dataset.view));document.querySelectorAll('#nav button').forEach(x=>x.classList.toggle('active',x===b));window.scrollTo({top:0,behavior:'smooth'})});
