@@ -4,25 +4,27 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>ハンターズギルド Study RPG v6.4</title>
-<style>
-body{margin:0;background:#100d0b;color:#eee1c8;font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Yu Gothic",Meiryo,sans-serif;display:grid;place-items:center;min-height:100vh}
-#loading{padding:24px;text-align:center;font-weight:800}
-</style>
+<style>body{margin:0;background:#100d0b;color:#eee1c8;font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Yu Gothic",Meiryo,sans-serif;display:grid;place-items:center;min-height:100vh}#loading{padding:24px;text-align:center;font-weight:800}</style>
 </head>
 <body>
-<div id="loading">ハンターズギルド v6.4 を読み込み中…</div>
+<div id="loading">ハンターズギルド v6.4 を起動中…</div>
 <script>
 (async()=>{
   try{
-    const urls=Array.from({length:9},(_,i)=>`chunks/part${String(i).padStart(2,'0')}.txt?v=64-final`);
-    const parts=await Promise.all(urls.map(u=>fetch(u,{cache:'no-store'}).then(r=>{if(!r.ok)throw new Error(u);return r.text()})));
+    const urls=Array.from({length:9},(_,i)=>`chunks/part${String(i).padStart(2,'0')}.txt?v=64-run2`);
+    const parts=await Promise.all(urls.map(u=>fetch(u,{cache:'no-store'}).then(r=>{if(!r.ok)throw new Error('load '+u);return r.text()})));
     const html=parts.join('');
+    const scripts=[...html.matchAll(/<script(?:\s[^>]*)?>([\s\S]*?)<\/script>/gi)].map(m=>m[1]);
+    if(!scripts.length) throw new Error('app script not found');
+    const shell=html.replace(/<script(?:\s[^>]*)?>[\s\S]*?<\/script>/gi,'');
     document.open();
-    document.write(html);
+    document.write(shell);
     document.close();
+    await new Promise(r=>setTimeout(r,0));
+    for(const code of scripts){(0,eval)(code)}
   }catch(e){
-    document.getElementById('loading').textContent='読み込みに失敗しました。もう一度ページを開き直してください。';
     console.error(e);
+    document.body.innerHTML='<div style="padding:24px;max-width:520px;margin:auto"><h2>起動エラー</h2><p>アプリの起動に失敗しました。</p><pre style="white-space:pre-wrap;font-size:11px">'+String(e&&e.stack||e)+'</pre></div>';
   }
 })();
 </script>
