@@ -11,13 +11,14 @@ function patch(){document.querySelectorAll('#gearGrid .gear-item[data-gear]').fo
 function style(){const s=document.createElement('style');s.textContent=`
 .weapon90-box{position:relative!important;overflow:hidden!important;background:radial-gradient(circle at 50% 45%,rgba(115,78,28,.13),#050505 72%)!important;padding:0!important}
 .weapon90-sprite{display:block;width:100%;height:100%;min-height:74px;background-image:url('weapon_atlas.png?v=90');background-repeat:no-repeat;background-size:1000% 1000%;background-position:calc(var(--c) * 11.111111%) calc(var(--r) * 11.111111%);image-rendering:pixelated;image-rendering:crisp-edges;filter:drop-shadow(0 0 4px rgba(215,165,72,.16));}
-.weapon90-sprite.other{background-image:url('weapon90_other.webp?v=90');background-size:1000% 100%;background-position:calc(var(--c) * 11.111111%) 50%;}
+.weapon90-sprite.other{background-image:var(--weapon90-other,url('weapon_atlas.png?v=90'));background-size:1000% 100%;background-position:calc(var(--c) * 11.111111%) 50%;}
 .weapon90-sprite.large{min-height:148px;filter:drop-shadow(0 0 8px rgba(235,183,79,.23));}
 .weapon90-card .gicon{height:82px!important;min-height:82px!important}.weapon90-card .weapon90-sprite{transform:scale(1.04);transform-origin:center}
 #gearDetail .detail-icon.weapon90-box{min-height:160px!important;height:160px!important}
 @media(max-width:430px){.weapon90-card .gicon{height:76px!important;min-height:76px!important}.weapon90-sprite{min-height:76px}.weapon90-sprite.large{min-height:145px}}
 `;document.head.appendChild(s);}
+async function loadOther(){try{const r=await fetch('weapon90_other_data.txt?v=90',{cache:'no-store'});if(!r.ok)return;const b64=(await r.text()).trim();if(b64)document.documentElement.style.setProperty('--weapon90-other',`url("data:image/webp;base64,${b64}")`);}catch(_){}}
 function watch(id){const el=document.getElementById(id);if(!el)return;new MutationObserver(()=>requestAnimationFrame(patch)).observe(el,{childList:true,subtree:true});}
-function boot(){style();patch();watch('gearGrid');watch('gearDetail');document.getElementById('nav')?.addEventListener('click',()=>setTimeout(patch,0));document.getElementById('gearTabs')?.addEventListener('click',()=>setTimeout(patch,0));document.getElementById('gearGrid')?.addEventListener('click',()=>setTimeout(patch,0));setTimeout(patch,100);setTimeout(patch,500);}
+function boot(){style();loadOther().then(patch);patch();watch('gearGrid');watch('gearDetail');document.getElementById('nav')?.addEventListener('click',()=>setTimeout(patch,0));document.getElementById('gearTabs')?.addEventListener('click',()=>setTimeout(patch,0));document.getElementById('gearGrid')?.addEventListener('click',()=>setTimeout(patch,0));setTimeout(patch,100);setTimeout(patch,500);}
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',boot);else boot();
 })();
