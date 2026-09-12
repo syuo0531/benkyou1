@@ -1,0 +1,1 @@
+v9.0 generated weapon art integration assets.
