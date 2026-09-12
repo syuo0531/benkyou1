@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>ハンターズギルド Study RPG v9.4 写真武器完全置換版</title>
+<link rel="stylesheet" href="app70.css?v=68"><link rel="stylesheet" href="pixel68.css?v=68"><link rel="stylesheet" href="forge79.css?v=79">
+</head>
+<body>
+<div class="app" id="app">
+  <header class="brand"><h1>ハンターズギルド 依頼所</h1><p>学びを依頼に変え、積み重ねで強くなる Study RPG</p></header><div class="ornament"></div>
+
+  <main>
+    <section class="view" data-view="home">
+      <div class="card status">
+        <div class="status-top"><div class="rank-badge" id="rankBadge">Lv1</div><div><div class="rank-name" id="rankName">下位ハンター</div><div class="rank-sub" id="rankSub">次のレベルまで 100 XP</div></div><div class="stat-side">討伐依頼<b id="clearCount">0</b></div></div>
+        <div class="bar"><i id="xpBar"></i></div><div class="bar-line"><span id="xpNow">0 XP</span><span id="xpNeed">100 XP</span></div>
+        <div class="hunter-hp"><div class="hp-caption"><span>ハンターHP（ゲーム内）</span><span id="hunterHpText">100 / 100</span></div><div class="hp-track"><div class="hp-fill" id="hunterHpBar" style="width:100%"></div></div><div class="rest-row"><button class="btn ghost" id="restHunter" type="button">⛺ キャンプで休息</button></div></div>
+        <div class="quick-stats"><div class="quick-stat"><b id="todayMinutes">0分</b><span>今日の勉強</span></div><div class="quick-stat"><b id="weekMinutes">0分</b><span>今週</span></div><div class="quick-stat"><b id="streakMini">0日</b><span>連続学習</span></div><div class="quick-stat"><b id="defenseMini">0</b><span>防御力</span></div></div>
+      </div>
+
+      <div class="section"><div class="section-title">今日の狩猟記録</div><div class="card goal-card"><div class="goal-row"><div><div class="goal-title">連続学習ストリーク</div><div class="goal-note" id="streakNote">今日1つ達成すると継続</div></div><div class="streak" id="streakBig">🔥 0</div></div><div class="weekbar" id="weekDots"></div></div></div>
+
+      <div class="section"><div class="section-title">デイリークエスト</div><div class="daily-grid" id="dailyGrid"></div></div>
+
+      <div class="section"><div class="section-title">討伐対象</div><div id="bossArea"></div></div>
+
+      <div class="section"><div class="section-title">次の復習</div><div class="review-list" id="homeReview"></div></div>
+    </section>
+
+    <section class="view hidden" data-view="quests">
+      <div class="section"><div class="section-title">受注中のクエスト</div><div class="quest-list" id="questList"></div></div>
+      <div class="section"><div class="section-title">新しいクエスト</div><div class="card addbox">
+        <div class="field"><label>内容</label><input id="questName" maxlength="70" placeholder="例：解剖学 問題を30問解く"></div>
+        <div class="grid2"><div class="field"><label>予定勉強時間（分）</label><input id="questMinutes" type="number" min="1" max="600" value="30"></div><div class="field"><label>難易度</label><select id="questDiff"><option value="easy">易 10XP</option><option value="normal" selected>普通 25XP</option><option value="hard">難 50XP</option><option value="epic">大型 100XP</option></select></div></div>
+        <button class="btn primary" id="addQuest" style="width:100%">依頼を貼り出す</button>
+      </div></div>
+      <div class="section"><div class="section-title">討伐対象を追加</div><div class="card addbox">
+        <div class="field"><label>モンスター名 / 試験名</label><input id="bossName" maxlength="50" placeholder="例：AT模試・外科"></div>
+        <div class="grid2"><div class="field"><label>最大HP（自由設定）</label><input id="bossHp" type="number" min="50" max="99999" value="1000"></div><div class="field"><label>脅威度</label><select id="bossTier"><option value="small">小型</option><option value="medium">中型</option><option value="large" selected>大型</option><option value="ancient">古龍級</option></select></div></div>
+        <div class="grid2"><div class="field"><label>ボス属性</label><select id="bossElement"><option value="none">無属性</option><option value="fire">火</option><option value="water">水</option><option value="thunder">雷</option><option value="ice">氷</option><option value="dragon">龍</option></select></div><div class="field"><label>弱点属性</label><select id="bossWeakness"><option value="none">なし</option><option value="fire">火</option><option value="water" selected>水</option><option value="thunder">雷</option><option value="ice">氷</option><option value="dragon">龍</option></select></div></div>
+        <div class="field"><label>制限時間（時間・空欄で無期限）</label><input id="bossDeadline" type="number" min="1" max="9999" placeholder="例：72"></div>
+        <button class="btn danger" id="addBoss" style="width:100%">討伐依頼を張り出す</button>
+      </div></div>
+      <div class="section"><div class="section-title">復習スケジュール</div><div class="review-list" id="reviewList"></div></div>
+    </section>
+
+    <section class="view hidden" data-view="gear">
+      <div class="section"><div class="section-title">装備工房</div><div class="card hunter-stage"><div class="hunter-scene"><div class="moon"></div><div class="mountains"></div><div class="gear-slots" id="gearSlots"></div>
+        <svg class="hunter-svg" viewBox="0 0 260 340" aria-label="装備中のハンター">
+          <defs><linearGradient id="skin" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#d6b496"/><stop offset="1" stop-color="#9d795f"/></linearGradient><linearGradient id="metal" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#8f8981"/><stop offset=".45" stop-color="#393430"/><stop offset="1" stop-color="#171411"/></linearGradient><linearGradient id="blade" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f1c266"/><stop offset=".35" stop-color="#b93d28"/><stop offset="1" stop-color="#2b1510"/></linearGradient></defs>
+          <g id="visWeapon" opacity=".15"><path id="visWeaponBlade" d="M182 18 L208 34 L125 255 L103 241 Z" fill="url(#blade)"/><path id="visWeaponEdge" d="M165 27 L200 47" stroke="#ddc78d" stroke-width="6"/><path id="visWeaponGrip" d="M108 239 L137 252" stroke="#241c16" stroke-width="12" stroke-linecap="round"/></g>
+          <path id="visCape" d="M82 117 Q130 90 174 119 L199 300 Q139 327 66 294 Z" fill="#421b17" opacity=".25"/>
+          <circle cx="128" cy="66" r="31" fill="url(#skin)"/><path d="M97 66 Q102 28 130 27 Q161 30 159 75 Q146 53 131 45 Q112 58 97 66Z" fill="#17130f"/>
+          <path d="M101 98 Q128 79 156 98 L167 132 L94 132 Z" fill="#2b2723"/>
+          <path id="visChest" d="M93 120 L111 102 L128 114 L146 102 L167 121 L158 194 L99 194 Z" fill="url(#metal)" stroke="#9d7c45" stroke-width="2" opacity=".25"/>
+          <path id="visHead" d="M100 65 Q103 31 128 25 Q154 31 159 65 L151 52 L142 39 L128 48 L114 39 L105 53 Z" fill="url(#metal)" stroke="#9d7c45" stroke-width="2" opacity=".12"/>
+          <path id="visArmL" d="M94 120 L65 131 L68 178 L99 165 Z" fill="url(#metal)" stroke="#9d7c45" stroke-width="2" opacity=".18"/><path id="visArmR" d="M166 120 L194 132 L188 178 L158 164 Z" fill="url(#metal)" stroke="#9d7c45" stroke-width="2" opacity=".18"/>
+          <path id="visWaist" d="M98 190 L159 190 L171 225 L153 238 L128 225 L103 238 L87 224 Z" fill="#50301f" stroke="#9d7c45" stroke-width="2" opacity=".18"/>
+          <path id="visLegL" d="M105 226 L126 226 L122 306 L96 306 Z" fill="url(#metal)" opacity=".2"/><path id="visLegR" d="M133 226 L154 226 L164 306 L137 306 Z" fill="url(#metal)" opacity=".2"/>
+          <path d="M96 305 L123 305 L120 329 L86 329 Z" fill="#171411"/><path d="M137 305 L164 305 L175 329 L140 329 Z" fill="#171411"/>
+          <circle id="visCharm" cx="128" cy="147" r="7" fill="#d6ad45" opacity=".15"/><path d="M128 154 L134 168 L128 176 L122 168 Z" fill="#d6ad45" opacity=".15" id="visCharmDrop"/>
+        </svg><div class="set-banner"><b id="setName">旅立ちの装い</b><small id="setBonus">セット効果なし</small></div></div><div class="gear-summary" id="gearSkills"></div></div></div>
+      <div class="section"><div class="section-title">装備一覧</div><div class="gear-tabs" id="gearTabs"></div><div class="gear-grid" id="gearGrid"></div><div class="card gear-detail" id="gearDetail"></div></div>
+      <div class="section"><div class="section-title">所持素材</div><div class="materials" id="materials"></div></div>
+    </section>
+
+    <section class="view hidden" data-view="bestiary">
+      <div class="section"><div class="section-title">モンスター図鑑</div><div class="bestiary-grid" id="bestiaryGrid"></div></div>
+      <div class="section"><div class="section-title">称号</div><div id="achievementList" class="review-list"></div></div>
+    </section>
+
+    <section class="view hidden" data-view="records">
+      <div class="section"><div class="section-title">学習記録</div><div class="card record-card"><div class="muted" style="font-size:10px">累計勉強時間</div><div class="big-number" id="totalStudy">0時間</div><div class="chart" id="studyChart"></div></div></div>
+      <div class="section"><div class="section-title">手動で勉強時間を追加</div><div class="card addbox"><div class="grid2"><div class="field"><label>内容</label><input id="manualStudyName" placeholder="例：AT模試復習"></div><div class="field"><label>時間（分）</label><input id="manualStudyMinutes" type="number" min="1" max="600" value="30"></div></div><button class="btn green" id="addStudy" style="width:100%">学習記録に追加</button></div></div>
+      <div class="section"><div class="section-title">最近のログ</div><div class="log" id="logList"></div></div>
+    </section>
+  </main>
+</div>
+
+<nav class="nav" id="nav"><button data-view="home" class="active"><b>⌂</b>ホーム</button><button data-view="quests"><b>📜</b>クエスト</button><button data-view="gear"><b>⚔</b>装備</button><button data-view="bestiary"><b>📖</b>図鑑</button><button data-view="records"><b>▥</b>記録</button></nav>
+
+<div class="modal" id="editQuestModal"><div class="modal-card"><div class="modal-head"><b>クエスト編集</b><button class="btn icon-btn" data-close>×</button></div><input type="hidden" id="editQuestId"><div class="field"><label>内容</label><input id="editQuestName"></div><div class="grid2"><div class="field"><label>勉強時間（分）</label><input id="editQuestMinutes" type="number" min="1" max="600"></div><div class="field"><label>難易度</label><select id="editQuestDiff"><option value="easy">易 10XP</option><option value="normal">普通 25XP</option><option value="hard">難 50XP</option><option value="epic">大型 100XP</option></select></div></div><div class="modal-actions"><button class="btn danger" id="deleteQuest">削除</button><button class="btn primary" id="saveQuestEdit">保存</button></div></div></div>
+<div class="modal" id="editBossModal"><div class="modal-card"><div class="modal-head"><b>討伐対象編集</b><button class="btn icon-btn" data-close>×</button></div><input type="hidden" id="editBossId"><div class="field"><label>名前</label><input id="editBossName"></div><div class="grid2"><div class="field"><label>最大HP</label><input id="editBossHp" type="number" min="50" max="99999"></div><div class="field"><label>脅威度</label><select id="editBossTier"><option value="small">小型</option><option value="medium">中型</option><option value="large">大型</option><option value="ancient">古龍級</option></select></div></div><div class="grid2"><div class="field"><label>ボス属性</label><select id="editBossElement"><option value="none">無属性</option><option value="fire">火</option><option value="water">水</option><option value="thunder">雷</option><option value="ice">氷</option><option value="dragon">龍</option></select></div><div class="field"><label>弱点属性</label><select id="editBossWeakness"><option value="none">なし</option><option value="fire">火</option><option value="water">水</option><option value="thunder">雷</option><option value="ice">氷</option><option value="dragon">龍</option></select></div></div><div class="modal-actions"><button class="btn danger" id="deleteBoss">削除</button><button class="btn primary" id="saveBossEdit">保存</button></div></div></div>
+<div class="toast" id="toast"></div>
+
+<script src="app71a1.js?v=68"></script>
+<script src="app71a3.js?v=68"></script>
+<script src="app71a2.js?v=68"></script>
+<script src="app71b1.js?v=68"></script>
+<script src="app71b2.js?v=68"></script>
+<script src="app71b3.js?v=68"></script>
+<script src="app71c.js?v=68"></script>
+<script src="pixel68.js?v=68"></script>
+<script src="gear88.js?v=88"></script>
+<script src="weapon94_data.js?v=94"></script>
+<script src="weapon94.js?v=94"></script>
+</body></html>
