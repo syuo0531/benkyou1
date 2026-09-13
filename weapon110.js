@@ -1,5 +1,5 @@
 (function(){'use strict';
-const ATLAS='weapon110_atlas.png?v=110';
+const ATLAS=window.W110_ATLAS||'';
 function byId(id){try{return typeof gearById==='function'?gearById(id):null}catch(_){return null}}
 function isW(g){return !!(g&&String(g.id||'').startsWith('photo96_')&&Number.isInteger(g._photo96Index));}
 function stars(n){n=Math.max(1,Math.min(5,Number(n)||1));return `<span class="w110-stars">${'★'.repeat(n)}<i>${'☆'.repeat(5-n)}</i></span>`}
