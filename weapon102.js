@@ -1,0 +1,23 @@
+(function(){'use strict';
+const IMG='weapon102_atlas.webp?v=102';
+function byId(id){try{return typeof gearById==='function'?gearById(id):null}catch(_){return null}}
+function isW(g){return !!(g&&String(g.id||'').startsWith('photo96_')&&Number.isInteger(g._photo96Index));}
+function stars(n){n=Math.max(1,Math.min(5,Number(n)||1));return '<span class="w102-stars">'+('★'.repeat(n))+'<i>'+('☆'.repeat(5-n))+'</i></span>';}
+function art(g,large=false){if(!isW(g))return'';const i=g._photo96Index,c=i%5,r=Math.floor(i/5);return `<span class="w102-art${large?' large':''}" style="--c:${c};--r:${r}"></span>`;}
+function css(){if(document.getElementById('w102-style'))return;const s=document.createElement('style');s.id='w102-style';s.textContent=`
+#gearGrid{grid-template-columns:repeat(4,minmax(0,1fr))!important;gap:8px!important}
+#gearGrid .gear-item{padding:7px!important;background:#0b0907!important;border:1px solid #5a3d21!important;border-radius:8px!important;overflow:hidden!important}
+.w102-art{display:block;width:100%;aspect-ratio:1/1;background-image:url('${IMG}');background-repeat:no-repeat;background-size:500% 400%;background-position:calc(var(--c)*25%) calc(var(--r)*33.333333%);border-radius:6px;filter:none!important;transform:none!important;image-rendering:auto!important}
+.w102-art.large{width:min(270px,62vw);aspect-ratio:1/1}
+.w102-name{display:block;margin-top:6px;font-size:10px;line-height:1.2;color:#f0dfb6;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.w102-stars{display:block;margin-top:3px;font-size:11px;line-height:1;color:#e9ac35;letter-spacing:1px}.w102-stars i{font-style:normal;color:#5a4932}
+.w102-detail-art{display:flex;justify-content:center;align-items:center;background:#0b0907;border:1px solid #604121;border-radius:10px;padding:10px;overflow:hidden;flex:0 0 auto}
+#gearDetail .detail-head{align-items:flex-start!important;gap:14px!important}
+#gearDetail .detail-name{font-size:22px!important;font-weight:900!important;color:#f2dfb4!important;margin-bottom:6px!important}
+#gearDetail .w102-stars{font-size:18px;margin:5px 0 10px}
+@media(min-width:700px){#gearGrid{grid-template-columns:repeat(5,minmax(0,1fr))!important}.w102-art.large{width:300px}}
+`;document.head.appendChild(s)}
+function grid(){const a=document.getElementById('gearGrid');if(!a)return;const list=(Array.isArray(GEAR)?GEAR:[]).filter(g=>g&&g.slot===gearSlot),crafted=Array.isArray(state.craftedGear)?state.craftedGear:[],eq=state.equipped||{};if(gearSlot!=='weapon'){if(typeof window.__w102Grid==='function')return window.__w102Grid();return}if(!selectedGear||!list.some(g=>g.id===selectedGear))selectedGear=eq.weapon||list[0]?.id||null;a.innerHTML='';list.forEach(g=>{const b=document.createElement('button');b.type='button';b.dataset.gear=g.id;b.className=`gear-item ${selectedGear===g.id?'selected ':''}${crafted.includes(g.id)?'':'locked '}`;b.innerHTML=`${art(g)}<b class="w102-name">${escapeHtml(g.name||'武器')}</b>${stars(g.rarity)}`;a.appendChild(b)});}
+function detail(){const a=document.getElementById('gearDetail');if(!a)return;const g=byId(selectedGear);if(!g){a.innerHTML='<div class="muted">装備を選択してください。</div>';return}if(g.slot!=='weapon'){if(typeof window.__w102Detail==='function')return window.__w102Detail();return}const crafted=Array.isArray(state.craftedGear)?state.craftedGear:[],eq=state.equipped||{},inv=state.inventory||{},costObj=g.cost||{},made=crafted.includes(g.id),equipped=eq.weapon===g.id,craftable=Object.entries(costObj).every(([m,n])=>(Number(inv[m])||0)>=(Number(n)||0));const cost=Object.entries(costObj).map(([m,n])=>`${MATS[m]||m} ${Number(inv[m])||0}/${Number(n)||0}`).join(' ・ ')||'なし';a.innerHTML=`<div class="detail-head"><div class="w102-detail-art">${art(g,true)}</div><div><div class="detail-name">${escapeHtml(g.name||'武器')}</div>${stars(g.rarity)}<div>攻撃倍率 ×${(Number(g.power)||1).toFixed(2)}</div></div></div><div class="costs">必要素材：${cost}</div><div class="detail-actions"><button class="btn gold" id="craftGear" ${made||!craftable?'disabled':''}>${made?'作成済み':craftable?'作成する':'素材不足'}</button><button class="btn primary" id="equipGear" ${made?'':'disabled'}>${equipped?'装備を外す':'装備する'}</button></div>`;}
+function install(){css();if(typeof window.renderGearGrid==='function'&&!window.__w102Grid)window.__w102Grid=window.renderGearGrid;if(typeof window.renderGearDetail==='function'&&!window.__w102Detail)window.__w102Detail=window.renderGearDetail;window.renderGearGrid=grid;window.renderGearDetail=detail;const old=window.renderGear;window.renderGear=function(){if(typeof old==='function')old();grid();detail();};try{renderGear()}catch(_){grid();detail()}}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',install);else install();})();
