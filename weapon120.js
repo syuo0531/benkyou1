@@ -1,3 +1,1 @@
-(function(){'use strict';
-const W119_IMAGES=[];
-})();
+__BIG_CONTENT__
